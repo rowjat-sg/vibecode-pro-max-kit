@@ -476,6 +476,18 @@ New agents need both `.claude/agents/{name}.md` and `.codex/agents/{name}.toml`.
 
 ---
 
+## Star History
+
+<a href="https://star-history.com/#withkynam/vibecode-pro-max-kit&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date" />
+ </picture>
+</a>
+
+---
+
 ## License
 
 MIT
