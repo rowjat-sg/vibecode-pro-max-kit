@@ -121,7 +121,7 @@ function validatePlan(relPath) {
 }
 
 if (planPaths.length === 0) {
-  fail("Usage: node .claude/skills/generate-plan/scripts/validate-plan-artifact.mjs [--strict] <plan.md>");
+  fail("Usage: node .claude/skills/vc-generate-plan/scripts/validate-plan-artifact.mjs [--strict] <plan.md>");
 }
 
 const checkedPlans = [];

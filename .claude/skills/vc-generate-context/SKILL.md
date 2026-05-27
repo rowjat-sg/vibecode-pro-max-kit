@@ -24,11 +24,11 @@ Optional input: a package, app, feature, context group, or architectural area to
 6. Include scan timestamp, repo HEAD if available, changes since last update, open questions, and source references.
 7. Validate the generated context:
    ```bash
-   node .claude/skills/generate-context/scripts/validate-all-context.mjs
+   node .claude/skills/vc-generate-context/scripts/validate-all-context.mjs
    ```
 8. If routing or grouped context changed, also run:
    ```bash
-   node .claude/skills/audit-context/scripts/validate-context-discovery.mjs
+   node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs
    ```
 
 ## Rules

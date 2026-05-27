@@ -49,7 +49,7 @@ After documentation updates complete:
 ## Phase 4: Documentation Validation (Post-Update)
 
 Run validation to detect potential hallucinations:
-1. Run: `node .claude/skills/audit-context/scripts/validate-context-discovery.mjs`
+1. Run: `node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs`
 2. Display validation report (warnings only, non-blocking)
 3. Checks: code references, internal links, config keys
 

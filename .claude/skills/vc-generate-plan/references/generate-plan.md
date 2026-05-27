@@ -425,7 +425,7 @@ For legacy active structures such as `PLAN.md` plus `phase-*.md`:
 - Use `process/context/all-context.md` to pick context files. Do not bulk-load every context doc when a focused group or entrypoint is enough.
 - Validate the saved plan before reporting it as ready:
   ```bash
-  node .claude/skills/generate-plan/scripts/validate-plan-artifact.mjs <plan-path>
+  node .claude/skills/vc-generate-plan/scripts/validate-plan-artifact.mjs <plan-path>
   ```
 - Use `--strict` only when intentionally enforcing warnings as blocking failures for a newly generated artifact.
 

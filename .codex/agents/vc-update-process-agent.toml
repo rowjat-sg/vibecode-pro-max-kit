@@ -169,6 +169,19 @@ Location: [Where in file - section name or append location]
 - **Deduplication**: Before adding to backlog, check existing entries to avoid duplicates
 - Present deferred items to user for approval alongside other improvements in Phase 3
 
+**7. Stale Artifact Scan -- ALWAYS CHECK THIS:**
+- When archiving a plan from `active/` to `completed/`, scan the sibling `reports/` and `references/` directories for related artifacts
+- Match artifacts to the plan being archived using these heuristics:
+  - (a) Filename contains the plan's feature slug
+  - (b) Artifact date is within 7 days of the plan date
+  - (c) Artifact content explicitly references the plan filename
+- For each match, classify as:
+  - **archive** -- move to the sibling `completed/` directory
+  - **keep** -- still relevant to other active work
+  - **delete** -- truly obsolete (requires user confirmation)
+- Cross-feature references (artifacts in a different feature's dirs that reference this plan) must be flagged for user decision, never auto-archived
+- Present all stale artifact findings in Phase 3 alongside other improvements for user approval
+
 **Rationale**: Users must approve ALL changes before implementation. Context file updates are the most commonly skipped — enforce them.
 
 ### Phase 3: User Approval Collection
@@ -259,15 +272,15 @@ Compare the output against `process/context/all-context.md`, group `all-*.md` en
 
 **Context grouping rule**: If a topic has 3+ durable docs, a context file exceeds roughly 800 lines with separable subtopics, or multiple agents repeatedly need one slice of a large context file, propose a new context group. Do not move files without user approval. After any context grouping change, run:
 ```bash
-node .claude/skills/audit-context/scripts/validate-context-discovery.mjs
+node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs
 ```
 
 **Cross-surface mirror validation**:
 If workflow/process/agent/skill files changed, run:
 ```bash
-node .claude/skills/audit-vc/scripts/validate-agent-parity.mjs
-node .claude/skills/audit-context/scripts/validate-context-discovery.mjs
-node .claude/skills/audit-vc/scripts/validate-skills.mjs
+node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
+node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs
+node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
 git diff --check
 ```
 
@@ -286,6 +299,18 @@ mv process/general-plans/active/[feature]_PLAN_[dd-mm-yy].md \
 ```
 
 After moving, verify source file is gone and delete if it remains (editors may re-save with pending edits).
+
+**Stale Artifact Archiving**:
+For each user-approved stale artifact from Phase 3:
+
+```bash
+# Move stale artifact to the sibling completed/ directory
+mv {source-dir}/{artifact-name} {sibling-completed}/completed_{artifact-name}
+```
+
+- `completed/` is flat -- reports and references move alongside archived plans, no subdirs
+- Verify source file is gone after move (same pattern as plan archival)
+- If the artifact is cross-feature (referenced by plans in other feature dirs), skip and flag for user
 
 **Phase-program archiving rule**:
 
@@ -321,7 +346,7 @@ After Phase 5, if this feels like a natural stopping point (feature complete, ma
 
 > "Session complete. Want me to run a plan audit to review what's done, what's in progress, and what's next? (follows the `vc-audit-plans` skill)"
 
-If user confirms, follow the `vc-audit-plans` skill at `.agents/skills/audit-plans/SKILL.md` exactly.
+If user confirms, follow the `vc-audit-plans` skill at `.agents/skills/vc-audit-plans/SKILL.md` exactly.
 
 ## Plan File Archiving Pattern - CRITICAL
 

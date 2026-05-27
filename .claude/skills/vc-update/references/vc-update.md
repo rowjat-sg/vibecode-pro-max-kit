@@ -56,7 +56,7 @@ MANAGED FILES:
   ... (42 more unchanged)
 
 MANAGED DIRECTORIES:
-  .claude/skills/scout/
+  .claude/skills/vc-scout/
     [modified]  SKILL.md  (+5 -2)
     [added]     references/scout-patterns.md
   ... (28 more unchanged)
@@ -106,7 +106,7 @@ Temp directory cleaned up.
     "process/context/planning/example-simple-prd.md"
   ],
   "managedDirs": [
-    ".claude/skills/scout",
+    ".claude/skills/vc-scout",
     ".claude/skills/vc-update"
   ],
   "seedsDir": "process/_seeds/",

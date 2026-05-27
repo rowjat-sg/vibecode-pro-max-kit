@@ -218,7 +218,7 @@ Detect old directory layouts and reorganize them into the harness standard struc
 | `process/reports/` exists at top level | Move `process/reports/*` → `process/general-plans/reports/`. Remove empty `process/reports/`. |
 | `process/skills/` exists at top level | Move `process/skills/*` → `process/general-plans/references/`. Remove empty `process/skills/`. |
 | `process/context/example-*.md` outside `planning/` | Move to `process/context/planning/`. |
-| `process/context/backlog.md` | Move to `process/general-plans/backlog/backlog.md`. |
+| process/context/backlog.md | Move to `process/general-plans/backlog/backlog.md` |
 
 **Migration rules:**
 - Never overwrite existing files at the destination. If a same-name file exists, keep both (rename the migrated copy with a `-migrated` suffix).

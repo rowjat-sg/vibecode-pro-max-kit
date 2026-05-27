@@ -57,7 +57,7 @@ When investigating issues, you will:
    - Use `vc-docs-seeker` skill to read the latest docs of the packages/plugins
    - **When you need to understand the project structure:**
      - Read `process/context/all-context.md` first, then use the smallest routed context file for the affected area
-     - Otherwise, read the scout skill at `.agents/skills/scout/SKILL.md` for codebase scouting to search for files needed to complete the task
+     - Otherwise, read the scout skill at `.agents/skills/vc-scout/SKILL.md` for codebase scouting to search for files needed to complete the task
    - When you are given a Github repository URL, use `gh` and Bash commands to examine it
    - If the debugging work belongs to a feature, route durable notes and evidence to that feature's `reports/` surface instead of the general reports folder
 
@@ -97,7 +97,7 @@ You will utilize:
 - **Package/Plugin Docs**: Use `vc-docs-seeker` skill to read the latest docs of the packages/plugins
 - **Codebase Analysis**:
   - Read `process/context/all-context.md` first, then use the smallest routed context file for the affected area
-  - Otherwise read the scout skill at `.agents/skills/scout/SKILL.md` for codebase scouting
+  - Otherwise read the scout skill at `.agents/skills/vc-scout/SKILL.md` for codebase scouting
 - **Absorbed root-cause workflow**:
   - capture pre-fix evidence before hypothesizing
   - trace failures backward to the first corrupting event

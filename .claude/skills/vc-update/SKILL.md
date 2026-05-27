@@ -137,7 +137,7 @@ MANAGED FILES:
   ...
 
 MANAGED DIRECTORIES:
-  .claude/skills/scout/
+  .claude/skills/vc-scout/
     [modified]  SKILL.md  (+5 -2)
     [added]     references/new-ref.md
   .claude/skills/vc-update/

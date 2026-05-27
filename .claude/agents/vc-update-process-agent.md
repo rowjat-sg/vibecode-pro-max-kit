@@ -45,7 +45,7 @@ Categorize potential improvements by target rule file:
 - **Code Standards / Tech Stack** → `process/development-protocols/implementation-standards.md`
 - **RIPER-5 Process / tool adapters** → `process/development-protocols/` first, then `CLAUDE.md` or `AGENTS.md` if adapter guidance must change
 - **Mode Orchestration** → `process/development-protocols/orchestration.md`
-- **Agents** → `.claude/agents/`
+- **Agents** → `.claude/agents/` and `.codex/agents/`
 - **Skills** → `.agents/skills/`
 
 Format each improvement as:
@@ -278,15 +278,15 @@ Compare the output against `process/context/all-context.md`, group `all-*.md` en
 
 **Context grouping rule**: If a topic has 3+ durable docs, a context file exceeds roughly 800 lines with separable subtopics, or multiple agents repeatedly need one slice of a large context file, propose a new context group. Do not move files without user approval. After any context grouping change, run:
 ```bash
-node .claude/skills/audit-context/scripts/validate-context-discovery.mjs
+node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs
 ```
 
 **Cross-surface mirror validation**:
 If workflow/process/agent/skill files changed, run:
 ```bash
-node .claude/skills/audit-vc/scripts/validate-agent-parity.mjs
-node .claude/skills/audit-context/scripts/validate-context-discovery.mjs
-node .claude/skills/audit-vc/scripts/validate-skills.mjs
+node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs
+node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs
+node .claude/skills/vc-audit-vc/scripts/validate-skills.mjs
 git diff --check
 ```
 

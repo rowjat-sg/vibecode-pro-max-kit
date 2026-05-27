@@ -29,13 +29,13 @@ Update only `process/context/all-context.md` in this workflow. Do not rewrite gr
 After updating `process/context/all-context.md`, run:
 
 ```bash
-node .claude/skills/generate-context/scripts/validate-all-context.mjs
+node .claude/skills/vc-generate-context/scripts/validate-all-context.mjs
 ```
 
 If the update changes context routing, group membership, or grouped docs, also run:
 
 ```bash
-node .claude/skills/audit-context/scripts/validate-context-discovery.mjs
+node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs
 ```
 
 Fix validation failures before presenting the context as refreshed. Treat warnings as freshness

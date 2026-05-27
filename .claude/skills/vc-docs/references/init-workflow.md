@@ -31,5 +31,5 @@ After documentation initialization completes:
 
 ## Phase 4: Documentation Validation (Post-Generation)
 
-Run `node .claude/skills/audit-context/scripts/validate-context-discovery.mjs` and report
+Run `node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs` and report
 any warnings or failures before finishing.

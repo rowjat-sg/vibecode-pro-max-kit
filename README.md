@@ -1,507 +1,220 @@
-<div align="center">
+# Flowser
 
-# vibecode-pro-max-kit
+Flowser monorepo -- Next.js web app + Docker containers for AI agent-powered browser automation.
 
-<a href="https://flowser.ai">
-  <img src="assets/flowser-logo.svg" alt="Flowser" width="120">
-</a>
-
-*Sponsored by [Flowser.ai](https://flowser.ai) — AI Agents with computers for GTM*
-
-<br>
-
-**The complete agent development harness for Claude Code + Codex**
-
-Not just configs — a self-improving development system with phase-locked safety,
-living project knowledge, and autonomous agent orchestration.
-
-<p>
-  <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
-  <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
-  <img src="https://img.shields.io/badge/agents-12-orange" alt="Agents">
-  <img src="https://img.shields.io/badge/skills-32-purple" alt="Skills">
-  <img src="https://img.shields.io/badge/hooks-7-red" alt="Hooks">
-  <img src="https://img.shields.io/badge/platforms-Claude_Code_%7C_Codex-black" alt="Platforms">
-</p>
-
-**12 agents** · **32 skills** · **7 hooks** · **6 dev protocols** · **17 seed templates**
-
-</div>
+**Tech Stack**: Next.js 15 (App Router), tRPC, Prisma + PostgreSQL, Docker, OpenClaw, CloakBrowser, Tailwind CSS v4, shadcn/ui
 
 ---
 
-## Install
+## Development System
 
-### Any project (new or existing)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
-```
-
-Then open Claude Code and say:
-
-```
-Run vc-setup
-```
-
-**That's it.** vc-setup handles everything automatically:
-
-- **Fresh project?** Installs the full harness, then studies your codebase
-- **Existing `.claude/` config?** Merges safely — your settings, hooks, and custom configs are preserved
-- **Existing `CLAUDE.md`?** Backed up as `CLAUDE.md.pre-vibecode`, harness version installed
-
-After install, vc-setup runs 4 phases:
-
-```
-DETECT    → reads your package.json, detects stack, monorepo, test setup
-SCAFFOLD  → creates process/ directory from seed templates
-STUDY     → deep-scans your codebase, auto-populates context with REAL content
-VALIDATE  → verifies everything is wired correctly
-```
-
-You end up with `process/context/all-context.md` fully populated with your architecture, patterns, test commands, and conventions. Every agent reads this on every task — zero manual setup.
-
-### Already installed? Update anytime
-
-```
-Run vc-update
-```
-
-> Shows a dry-run diff of what changed, waits for your OK, then applies. Your project-specific files are never touched.
+This monorepo uses **RIPER-5** -- a spec-driven development protocol shared across Claude and Codex. Every request is routed through a skill-discovery step, then to the right agent or workflow.
 
 ---
 
-## What Makes This Different
-
-Most agent harnesses give you configs. This gives you a **complete development system** that gets smarter the more you use it.
-
-### 1. Phase-Locked Safety (RIPER-5)
-
-Every request goes through strict phases. You can't accidentally ship half-baked code.
+### How It Works
 
 ```
-Your Request
-  │
-  ▼
-┌──────────────────────────────────────────────────────┐
-│  RESEARCH   — Read-only investigation                │
-│  INNOVATE   — Explore 2-3 approaches, trade-offs     │
-│  PLAN       — Write spec with checklist + blast radius│
-│  EXECUTE    — Implement exactly per approved plan     │
-│  UPDATE     — Capture learnings, improve the system   │
-└──────────────────────────────────────────────────────┘
+Your request
+  -> Step 0: Skill Discovery (match keywords -> surface relevant skills)
+  -> Intent Detection (feature / bug / question / refactor / UI)
+  -> Route to agent or meta-workflow
+  -> Phase-locked execution with explicit transitions
 ```
 
-The orchestrator enforces boundaries: RESEARCH can't modify files, EXECUTE can't start without an approved plan. Phase transitions require your explicit confirmation.
+The orchestrator session **never does the work itself** -- it routes, monitors, and manages transitions.
 
-### 2. Living Project Knowledge (`process/`)
+For large multi-phase programs, use the repo's **phase program** protocol in
+`process/development-protocols/phase-programs.md`:
 
-Your project builds a **persistent knowledge base** that agents read on every task:
+- create one umbrella plan
+- split the work into explicit phase plans
+- advance one phase at a time
+- run the required loop inside each phase:
+  research -> approval -> execute -> validate -> durable report/context update
 
-```
-process/
-├── context/                    ← Project knowledge (grows over time)
-│   ├── all-context.md          ← Root: architecture, stack, patterns, conventions
-│   ├── tests/all-tests.md      ← Test commands, debugging, CI setup
-│   ├── infra/all-infra.md      ← Deployment, Docker, env vars
-│   └── {topic}/all-{topic}.md  ← Any domain that needs its own group
-├── features/                   ← Feature-scoped plans + reports
-│   ├── auth/active/            ← In-progress auth plans
-│   ├── auth/completed/         ← Archived completed work
-│   └── auth/reports/           ← Execution reports, learnings
-├── general-plans/              ← Cross-cutting plans
-│   ├── active/                 ← Current work
-│   ├── completed/              ← Done and archived
-│   └── reports/                ← Operational reports
-├── development-protocols/      ← How agents work (managed by harness)
-└── _seeds/                     ← Templates for bootstrapping (managed by harness)
-```
-
-**Why this matters:**
-- Every agent reads `all-context.md` before working — they know your stack, patterns, and conventions
-- Plans are durable artifacts with checklists, blast radius analysis, and verification evidence
-- Feature folders accumulate knowledge: completed plans become reference for future work
-- Context groups scale as your project grows — split when a topic exceeds ~800 lines
-
-### 3. The Self-Improving Loop
-
-This is the killer feature. After every non-trivial task:
-
-```
-EXECUTE completes
-  │
-  ▼
-┌─────────────────────────────────────────────────────────────┐
-│  UPDATE PROCESS                                             │
-│                                                             │
-│  • Archive completed plan to completed/                     │
-│  • Capture learnings → update context docs                  │
-│  • Fix patterns that caused bugs → update conventions       │
-│  • New testing insight → update all-tests.md                │
-│  • Architectural decision → update all-context.md           │
-│                                                             │
-│  Result: Next task starts with MORE knowledge               │
-└─────────────────────────────────────────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────────────────────────────────────┐
-│  AUDIT SKILLS (periodic)                                    │
-│                                                             │
-│  • audit-context  → fix stale docs, missing groups          │
-│  • audit-plans    → clean up abandoned plans                │
-│  • audit-vc       → verify agent/skill parity               │
-│  • ck-autoresearch → optimize metrics autonomously          │
-│                                                             │
-│  Result: System stays healthy as it grows                   │
-└─────────────────────────────────────────────────────────────┘
-```
-
-**Day 1**: Agents know nothing about your project. Context is empty.
-**Day 7**: Context has your architecture, test patterns, and 3 completed feature plans.
-**Day 30**: Agents anticipate your conventions, reference past decisions, and avoid known pitfalls.
-
-The more you build, the better your agents get. No manual training required.
+There is also a reusable **big-project kickoff prompt** in
+`process/development-protocols/phase-programs.md` so future agents can start the workflow
+consistently instead of improvising the structure each time. That kickoff should first recommend
+the plan shape, phase sequence, and next actions before creating plan files.
 
 ---
 
-## Quickstart (after install)
+### RIPER-5 Phases
 
-**1. Generate your project context:**
+| Mode               | What happens                                                                  | How to enter                              |
+| ------------------ | ----------------------------------------------------------------------------- | ----------------------------------------- |
+| **RESEARCH**       | Read-only fact gathering, codebase + web                                      | Automatic on feature/question requests    |
+| **INNOVATE**       | Explore 2-3 approaches, trade-offs                                            | Say `go` after research                   |
+| **PLAN**           | Write spec to `process/general-plans/active/` or `process/features/*/active/` | Say `go` after innovate                   |
+| **EXECUTE**        | Implement per approved plan                                                   | Say `ENTER EXECUTE MODE`                  |
+| **UPDATE PROCESS** | Capture learnings, archive plan                                               | Optional, say `ENTER UPDATE PROCESS MODE` |
 
-```
-Run the generate-context skill
-```
+**Phase rules:**
 
-The agent studies your repo — tech stack, file structure, patterns, tests — and writes `process/context/all-context.md`. This is the single file that makes every future agent interaction context-aware.
-
-**2. Start building:**
-
-```
-Add a webhook notification system
-```
-
-The orchestrator auto-detects "feature request", discovers relevant skills (`ck-scenario`, `ck-security`, `web-testing`), and routes through RESEARCH → INNOVATE → PLAN → EXECUTE.
-
-**3. Quick shortcuts:**
-
-| What you want | What to say |
-|---|---|
-| Skip to implementation | `ENTER FAST MODE - add dark mode toggle` |
-| Fix a small bug | `Fix the broken date format in utils.ts` (auto-routes to execute) |
-| Debug something complex | `Debug why the API returns 500 on login` (routes to debugger agent) |
-| Improve test coverage | `Run ck-autoresearch to improve test coverage` (autonomous loop) |
+- Every transition requires explicit confirmation -- nothing auto-advances
+- INNOVATE must produce a Decision Summary before PLAN begins
+- EXECUTE requires a selected plan file in `process/general-plans/active/` or `process/features/*/active/` -- refuses without one
+- Trivial fixes (single file, <15 lines, no schema/auth changes) skip straight to EXECUTE
 
 ---
 
-## What's Included
+### Quick Workflows (skip RIPER-5)
 
-### 12 Agents
-
-**Core (RIPER-5 phases):**
-
-| Agent | What it does |
-|---|---|
-| `research-agent` | Read-only codebase + web investigation |
-| `innovate-agent` | Brainstorm approaches, no decisions |
-| `plan-agent` | Write detailed specs with checklists |
-| `execute-agent` | Implement exactly per approved plan |
-| `fast-mode-agent` | Compressed R→I→P→E with safety pause |
-| `update-process-agent` | Capture learnings, update context, archive plans |
-
-**Specialists:**
-
-| Agent | What it does |
-|---|---|
-| `debugger` | Evidence-first root cause analysis |
-| `tester` | Diff-aware test verification |
-| `code-reviewer` | Adversarial pre-PR review |
-| `code-simplifier` | Clarity refactor, no behavior change |
-| `ui-ux-designer` | Design-aware frontend implementation |
-| `git-manager` | Clean conventional commits |
-
-### 32 Skills
-
-<details>
-<summary><strong>Contract Skills</strong> — define workflow artifacts</summary>
-
-| Skill | Purpose |
-|---|---|
-| `generate-plan` | Create SIMPLE or COMPLEX implementation plans |
-| `generate-context` | Generate/update repository context |
-| `audit-context` | Audit context routing and discoverability |
-| `audit-plans` | Audit active-plan inventory and staleness |
-| `audit-vc` | Audit harness health and agent parity |
-
-</details>
-
-<details>
-<summary><strong>Analysis Skills</strong> — deep investigation</summary>
-
-| Skill | Purpose |
-|---|---|
-| `ck-debug` | Systematic root cause analysis |
-| `ck-scenario` | Edge case generation across 12 dimensions |
-| `ck-security` | STRIDE + OWASP security audit |
-| `ck-predict` | 5-persona pre-implementation debate |
-| `ck-autoresearch` | Autonomous metric optimization loop |
-| `scout` | Fast parallel codebase scouting |
-
-</details>
-
-<details>
-<summary><strong>Creation Skills</strong> — build and design</summary>
-
-| Skill | Purpose |
-|---|---|
-| `frontend-design` | Polished UI from designs/screenshots |
-| `tech-graph` | Publish-grade SVG/PNG technical diagrams |
-| `web-testing` | Playwright/Vitest/k6 test automation |
-| `docs` | Project documentation management |
-
-</details>
-
-<details>
-<summary><strong>Utility Skills</strong> — workflow helpers</summary>
-
-| Skill | Purpose |
-|---|---|
-| `sequential-thinking` | Step-by-step structured reasoning |
-| `problem-solving` | Cognitive unblocking techniques |
-| `context-engineering` | Token/context optimization |
-| `preview` | Visual diagrams, slides, file viewer |
-| `repomix` | Repository packing for audits |
-| `xia` | Repo comparison and adaptation research |
-| `watzup` | Branch status and active-plan summary |
-| `docs-seeker` | Library docs via context7 |
-| `chrome-devtools` | Puppeteer browser automation |
-| `agent-browser` | AI browser automation CLI |
-| `mcp-management` | MCP server tools |
-| `team` | Multi-agent parallel collaboration |
-
-</details>
-
-<details>
-<summary><strong>Harness Management</strong></summary>
-
-| Skill | Purpose |
-|---|---|
-| `vc-setup` | Scaffold harness into new project |
-| `vc-update` | Pull latest harness from remote |
-| `vc-publish` | Push improvements to remote kit repo |
-| `add-worktree` | Create isolated Git worktrees |
-| `merge-worktree` | Merge and clean up worktrees |
-
-</details>
-
-### 7 Hooks
-
-| Hook | What it does |
-|---|---|
-| `session-init` | Initialize session context + statusline |
-| `session-state` | Track state across messages |
-| `subagent-init` | Inject context into subagents |
-| `descriptive-name` | Auto-name sessions descriptively |
-| `scout-block` | Prevent unscoped file searches |
-| `privacy-block` | Block sensitive data exposure |
-| `post-edit-simplify-reminder` | Nudge simplification after edits |
-
-### 6 Development Protocols
-
-| Protocol | What it governs |
-|---|---|
-| `orchestration` | Delegation rules, status codes, context isolation |
-| `implementation-standards` | Coding conventions and quality gates |
-| `plan-lifecycle` | Plan creation, review, archival |
-| `phase-programs` | Multi-phase large program management |
-| `context-maintenance` | Context group lifecycle and discovery |
-| `all-development-protocols` | Root entrypoint and routing |
+| Workflow      | When to use                                               | How                        |
+| ------------- | --------------------------------------------------------- | -------------------------- |
+| **Fast Mode** | You want RESEARCH+INNOVATE+PLAN in one shot, then confirm | `ENTER FAST MODE - [task]` |
+| **Debugger**  | Root cause analysis before any substantial fix            | route to `vc-debugger`     |
+| **Trivial fix** | Very small scoped change                                | route to `vc-execute-agent`|
 
 ---
 
-## Session Examples
+### Agents
 
-### New Feature (full RIPER-5)
+#### Core (RIPER-5 phases)
 
-```
-You: Add webhook support to the notifications API
+| Agent                     | Role                                                                          |
+| ------------------------- | ----------------------------------------------------------------------------- |
+| `vc-research-agent`       | Codebase + web research, read-only                                            |
+| `vc-innovate-agent`       | Brainstorm approaches, no code or decisions                                   |
+| `vc-plan-agent`           | Write spec to `process/general-plans/active/` or `process/features/*/active/` |
+| `vc-execute-agent`        | Implement approved plan                                                       |
+| `vc-fast-mode-agent`      | Compressed RESEARCH->INNOVATE->PLAN, then pause                               |
+| `vc-update-process-agent` | Capture learnings, update rules, archive plans                                |
 
-Orchestrator: Detected feature request.
-  Skills discovered: ck-scenario, ck-security, web-testing
-  Routing to research-agent...
+#### Specialists (invoked from EXECUTE or standalone)
 
-research-agent: Found existing notification patterns in src/notifications/...
-  3 webhook libraries evaluated. Ready for INNOVATE.
-
-You: go
-
-innovate-agent: Three approaches compared:
-  1. Event-driven with queue (recommended)
-  2. Direct HTTP callbacks
-  3. Polling-based
-  Decision: #1 — resilient, retryable, scalable.
-
-You: go
-
-plan-agent: Created process/general-plans/active/webhook-support_PLAN_27-05-26.md
-  12 checklist items, blast radius: 4 files, verification: 8 tests.
-  Review and say "ENTER EXECUTE MODE" to proceed.
-
-You: ENTER EXECUTE MODE
-
-execute-agent: Implementing per plan...
-  ✓ 12/12 items complete. 8 new tests passing.
-
-Orchestrator: Implementation complete. Recommend UPDATE PROCESS
-  to archive plan and capture webhook patterns in context.
-```
-
-### Quick Bug Fix (auto-routes)
-
-```
-You: Fix the date formatting bug in the dashboard
-
-Orchestrator: Trivial fix (single file, no schema change).
-  Routing directly to execute-agent.
-
-execute-agent: Fixed format string in dashboard-utils.ts
-  "YYYY-DD-MM" → "YYYY-MM-DD". Existing test updated.
-```
-
-### Fast Mode (compressed)
-
-```
-You: ENTER FAST MODE - add dark mode toggle
-
-fast-mode-agent:
-  RESEARCH: Found existing theme CSS variables...
-  INNOVATE: CSS custom properties + localStorage approach...
-  PLAN: Created dark-mode_PLAN_27-05-26.md (6 items)
-
-  ⏸ PAUSED — Review plan. Say "ENTER EXECUTE MODE" to proceed.
-
-You: ENTER EXECUTE MODE
-
-fast-mode-agent: ✓ Toggle component, CSS variables, persistence. Done.
-```
-
-### Self-Improving Loop
-
-```
-You: ENTER UPDATE PROCESS MODE
-
-update-process-agent:
-  ✓ Archived webhook-support plan to completed/
-  ✓ Added webhook retry pattern to all-context.md
-  ✓ Updated all-tests.md with webhook test commands
-  ✓ Noted: queue library requires Redis — added to infra context
-
-  Next time an agent works on notifications, it already knows
-  your webhook patterns, test setup, and Redis dependency.
-```
+| Agent                | Role                                            |
+| -------------------- | ----------------------------------------------- |
+| `vc-code-reviewer`   | Pre-PR adversarial review, edge case scouting   |
+| `vc-code-simplifier` | Refactor for clarity without behavior change    |
+| `vc-debugger`        | Evidence-first root cause analysis              |
+| `vc-tester`          | Diff-aware test verification (per-package only) |
+| `vc-git-manager`     | Conventional commits + push                     |
+| `vc-ui-ux-designer`  | Design-aware frontend implementation            |
 
 ---
 
-## Updating the Harness
+### Skills Catalog
+
+Skills are auto-discovered in Step 0. Use the current assistant/runtime entry surface rather than relying on legacy slash-command assumptions.
+
+#### Flowser Contract Skills
+
+| Skill                  | Use for                                                               |
+| ---------------------- | --------------------------------------------------------------------- |
+| `vc-generate-plan`     | Durable implementation plans with touchpoints, blast radius, proof, and execute handoff in `process/general-plans/` or features |
+| `vc-generate-context`  | Refresh `process/context/all-context.md`                              |
+| `vc-audit-context`     | Context routing, grouping, discoverability, Claude/Codex wiring       |
+| `vc-audit-plans`       | Active-plan reconciliation and cleanup                                |
+| `vc-audit-vc`          | Agent harness, skill registry, README.md, and protocol wiring health  |
+| `vc-autoresearch`      | Autonomous metric optimization (coverage, bundle size) -- post-execute |
+| `vc-setup`             | Scaffold agent harness into a new project                             |
+| `vc-update`            | Pull latest harness from remote kit repo                              |
+| `vc-publish`           | Push harness improvements to remote kit repo                          |
+
+#### Planning & Analysis
+
+| Skill                    | Use for                                                  |
+| ------------------------ | -------------------------------------------------------- |
+| `vc-predict`             | 5-persona risk debate before risky changes               |
+| `vc-scenario`            | Edge case generation across 12 dimensions                |
+| `vc-sequential-thinking` | Step-by-step reasoning with revision                     |
+| `vc-problem-solving`     | Cognitive unblocking when stuck                          |
+
+#### Debug & Security
+
+| Skill         | Use for                                 |
+| ------------- | --------------------------------------- |
+| `vc-debug`    | Systematic root cause analysis          |
+| `vc-security` | STRIDE + OWASP audit, optional auto-fix |
+
+#### Research & Docs
+
+| Skill            | Use for                                     |
+| ---------------- | ------------------------------------------- |
+| `vc-docs-seeker` | Library/API docs via context7               |
+| `vc-scout`       | Fast parallel codebase search               |
+| `vc-docs`        | Generate/update project documentation       |
+| `vc-repomix`     | Pack repos into references-only artifacts   |
+| `vc-xia`         | Repo comparison and adaptation-prep research |
+
+#### Frontend & Browser
+
+| Skill                | Use for                                            |
+| -------------------- | -------------------------------------------------- |
+| `vc-frontend-design` | Production UI from screenshots/designs (anti-slop) |
+| `vc-chrome-devtools` | Puppeteer automation, screenshots, debugging       |
+| `vc-agent-browser`   | Long browser sessions, Browserbase cloud           |
+| `vc-web-testing`     | Playwright E2E, Vitest, k6 load testing            |
+
+#### Utilities
+
+| Skill                    | Use for                                                    |
+| ------------------------ | ---------------------------------------------------------- |
+| `vc-context-engineering` | Token usage monitoring, context optimization               |
+| `vc-mcp-management`      | MCP server tool discovery and execution                    |
+| `vc-preview`             | Visualize diagrams, slides, file diffs                     |
+| `vc-team`                | Parallel multi-agent sessions (requires experimental flag) |
+| `vc-tech-graph`          | Publish-grade SVG/PNG technical diagrams                   |
+| `vc-watzup`              | Read-only branch/worktree/active-plan summary              |
+| `vc-merge-worktree`      | Merge and clean up a git worktree                          |
+
+---
+
+### Invocation Notes
+
+- Use explicit RIPER mode commands for phase transitions, for example `ENTER PLAN MODE` or `ENTER EXECUTE MODE`.
+- Use real reusable skills directly by name, for example `vc-generate-plan`, `vc-generate-context`, or `vc-audit-plans`.
+- Do not rely on retired command aliases or deleted legacy workflow-owner skills.
+
+---
+
+### Key Conventions
+
+- **Plans:** `process/general-plans/active/[feature]_PLAN_[dd-mm-yy].md` or the matching `process/features/{feature}/active/` folder
+- **Context:** `process/context/all-context.md` -- authoritative project reference
+- **Tests:** `process/context/tests/all-tests.md` -- testing quick-start and deeper test routing
+- **Default verification:** `pnpm test:local` is the currently verified safe default; `pnpm typecheck` and `pnpm lint` are desired quality gates but currently tracked as Phase 09 blockers until repaired or intentionally split; live/provider/costful gates are manual opt-in only
+- **Package manager:** `pnpm` only (monorepo -- never `npm run` from root)
+- **Commits:** conventional format, no AI references, run the current verified gate before commit;
+  run lint once the Phase 09 root lint blocker is repaired or intentionally scoped
+- **Files:** keep TS/JS source under 200 lines; split if larger
+
+---
+
+### Typical Session
 
 ```
-Run the vc-update skill
+# New feature
+You: "add webhook support to the API"
+-> Orchestrator surfaces: vc-scenario, vc-security (keywords: API, webhook)
+-> Routes to vc-research-agent
+-> You say "go" -> innovate-agent
+-> You say "go" -> plan-agent writes process/general-plans/active/webhook-support_PLAN_07-04-26.md
+-> You say "ENTER EXECUTE MODE" -> vc-execute-agent implements
+-> Specialist chain: vc-tester -> vc-code-reviewer -> vc-code-simplifier (when useful) -> vc-git-manager
+
+# Large program
+You: "build a full autonomous testing platform for the repo"
+-> Orchestrator recognizes a phase program
+-> Research to define the whole program
+-> Plan-agent creates umbrella plan + phase plans under a feature folder
+-> For each phase:
+   research subagent
+   -> user approves phase scope
+   -> execute subagent
+   -> validate subagent
+   -> report/context update
+-> Finished foundation work may be split from later expansion work into follow-up feature folders
+
+# Quick bug fix
+You: "fix the login redirect not working"
+-> Orchestrator routes to vc-debugger for root cause analysis
+-> Then vc-execute-agent implements the approved fix
+-> Specialist chain: vc-tester -> vc-code-reviewer -> vc-git-manager
+
+# Quick question
+You: "how does the tRPC context work here?"
+-> Orchestrator answers directly from codebase (trivial conceptual)
 ```
-
-1. Clones latest kit from remote
-2. Compares every managed file against your local copy
-3. Shows a **dry-run diff table** — you see exactly what changes
-4. **Waits for your OK** before touching anything
-5. Updates managed files, syncs skills, refreshes seed templates
-6. Records version in `.vc-version`
-
-**Your files are safe.** `process/context/`, `process/features/`, `process/general-plans/` are **never touched** by updates. Only harness-managed files (agents, skills, hooks, protocols) get updated.
-
----
-
-## For Maintainers
-
-Push harness improvements from your development repo:
-
-```
-Run the vc-publish skill
-```
-
-1. Reads `.vc-publish-config` for kit repo checkout path
-2. Diffs all managed files, skills, and seeds
-3. Shows what changed — waits for version bump choice (patch/minor/major)
-4. Copies, commits, tags, pushes
-5. Verifies no project-specific content leaked
-
----
-
-## Multi-Platform Support
-
-| Platform | Level | What works |
-|---|---|---|
-| **Claude Code** | Full | Agents + skills + hooks + settings |
-| **Codex** | Full | Agents (.toml) + skills (symlink) + hooks |
-| **Cursor** | Partial | Reads CLAUDE.md conventions |
-| **Windsurf** | Partial | Reads CLAUDE.md conventions |
-
----
-
-## Repo Structure
-
-```
-vibecode-pro-max-kit/
-├── CLAUDE.md                    # Agent instructions (harness-only)
-├── AGENTS.md                    # Codex compatibility layer
-├── vc-manifest.json             # Managed file registry
-├── .claude/
-│   ├── agents/                  # 12 agent definitions (.md)
-│   ├── skills/                  # 32 skill directories
-│   ├── hooks/                   # 7 hooks + lib/
-│   └── settings.json            # Hook discovery config
-├── .codex/
-│   ├── agents/                  # 12 agent mirrors (.toml)
-│   ├── hooks/                   # Codex hook copies
-│   └── hooks.json               # Codex hook discovery
-├── .agents/
-│   └── skills -> ../.claude/skills
-└── process/
-    ├── _seeds/                  # Bootstrap templates (managed)
-    ├── development-protocols/   # 6 workflow protocols (managed)
-    ├── context/                 # Project knowledge (yours)
-    ├── features/                # Feature-scoped work (yours)
-    └── general-plans/           # Cross-cutting plans (yours)
-```
-
----
-
-## Contributing
-
-1. Fork → branch → make changes (use the harness on itself)
-2. Run `audit-vc` to verify harness health
-3. Submit a PR
-
-New skills go in `.claude/skills/{name}/SKILL.md` with YAML frontmatter.
-New agents need both `.claude/agents/{name}.md` and `.codex/agents/{name}.toml`.
-
----
-
-## Star History
-
-<a href="https://star-history.com/#withkynam/vibecode-pro-max-kit&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=withkynam/vibecode-pro-max-kit&type=Date" />
- </picture>
-</a>
-
----
-
-## License
-
-MIT
-
----
-
-<div align="center">
-  <sub>Built with RIPER-5. Every feature of this kit was developed using the kit itself.</sub>
-</div>

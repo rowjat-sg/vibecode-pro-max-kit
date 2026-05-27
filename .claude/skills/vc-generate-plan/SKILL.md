@@ -36,7 +36,7 @@ Optional input: a feature idea plus `simple` or `complex` when the user already 
    - one durable report destination per phase
 11. Validate the generated artifact:
    ```bash
-   node .claude/skills/generate-plan/scripts/validate-plan-artifact.mjs <plan-path>
+   node .claude/skills/vc-generate-plan/scripts/validate-plan-artifact.mjs <plan-path>
    ```
 
 ## Important Rules

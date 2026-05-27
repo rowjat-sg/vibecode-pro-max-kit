@@ -25,7 +25,7 @@ Prefer it when:
 1. Read `references/audit-plans.md` for the full audit process.
 2. Run the inventory validator:
    ```bash
-   node .claude/skills/audit-plans/scripts/validate-plan-inventory.mjs
+   node .claude/skills/vc-audit-plans/scripts/validate-plan-inventory.mjs
    ```
 3. Inventory plans in `process/general-plans/active/` and `process/features/*/active/`.
 3.5. Scan sibling `reports/` and `references/` dirs alongside each `active/` dir for artifacts tied to plans classified as Completed or Obsolete. Match by feature slug, date proximity (7 days), or content reference to the plan filename.

@@ -57,7 +57,7 @@ This is the ONLY exception to the no-modification rule in PLAN mode. No other fi
 ### Authoritative Plan Format
 
 When creating or updating a plan file, use the `vc-generate-plan` skill at
-`.agents/skills/generate-plan/SKILL.md` as the authoritative reference for
+`.agents/skills/vc-generate-plan/SKILL.md` as the authoritative reference for
 plan structure, complexity classification, phase completion rules, and example formats.
 
 `PLAN` mode defines when and how planning happens.
@@ -273,7 +273,7 @@ Before finalizing a plan, verify each item:
 - **Test matrix defined**: unit, integration, manual, and E2E expectations are clear where applicable
 - **Rollback considered**: difficult or risky phases note how to recover safely
 - **Success criteria measurable**: "done" is observable, not subjective
-- **Validator expectations noted**: plan handoff names `node .claude/skills/audit-vc/scripts/validate-agent-parity.mjs --strict` when agent-surface parity matters and `node .claude/skills/generate-plan/scripts/validate-plan-artifact.mjs <plan-path>` for the selected plan artifact
+- **Validator expectations noted**: plan handoff names `node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs --strict` when agent-surface parity matters and `node .claude/skills/vc-generate-plan/scripts/validate-plan-artifact.mjs <plan-path>` for the selected plan artifact
 
 ## Anti-Rationalization
 

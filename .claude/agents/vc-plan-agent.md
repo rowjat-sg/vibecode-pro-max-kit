@@ -279,7 +279,7 @@ Before finalizing a plan, verify each item:
 - **Test matrix defined**: unit, integration, manual, and E2E expectations are clear where applicable
 - **Rollback considered**: difficult or risky phases note how to recover safely
 - **Success criteria measurable**: "done" is observable, not subjective
-- **Validator expectations noted**: plan handoff names `node .claude/skills/audit-vc/scripts/validate-agent-parity.mjs --strict` when agent-surface parity matters and `node .claude/skills/generate-plan/scripts/validate-plan-artifact.mjs <plan-path>` for the selected plan artifact
+- **Validator expectations noted**: plan handoff names `node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs --strict` when agent-surface parity matters and `node .claude/skills/vc-generate-plan/scripts/validate-plan-artifact.mjs <plan-path>` for the selected plan artifact
 
 ## Anti-Rationalization
 

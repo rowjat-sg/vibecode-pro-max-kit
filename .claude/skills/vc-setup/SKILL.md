@@ -1,6 +1,6 @@
 ---
 name: vc:setup
-description: Set up the complete agent harness in any project. Handles everything automatically — clones the kit, installs files safely (merges with existing configs), studies your codebase, populates context, and validates.
+description: Set up the complete agent harness in any project. Use when bootstrapping a new project or refreshing an existing harness. Handles everything automatically — clones the kit, installs files safely (merges with existing configs), studies your codebase, populates context, and validates.
 metadata:
   author: vibecode
   version: "3.1.0"
@@ -62,7 +62,7 @@ Create the `process/` directory with seed files and instructional content.
 | `process/reports/` exists at top level | Move `process/reports/*` → `process/general-plans/reports/`, then remove empty `process/reports/` |
 | `process/skills/` exists at top level | Move `process/skills/*` → `process/general-plans/references/`, then remove empty `process/skills/` |
 | `process/context/example-*.md` (PRDs outside planning/) | Move to `process/context/planning/` |
-| `process/context/backlog.md` at top of context/ | Move to `process/general-plans/backlog/` |
+| process/context/backlog.md at top of context/ | Move to `process/general-plans/backlog/backlog.md` |
 
 **Migration rules:**
 - Never overwrite existing files at the destination. If a file with the same name exists, keep both (rename the migrated copy with a `-migrated` suffix).
@@ -112,8 +112,8 @@ Verify the setup is complete, correct, and populated with real content.
    - Feature folders created have `_GUIDE.md` files with real scope descriptions
 5. Report any issues found.
 6. Suggest running validation scripts if they exist in the target repo:
-   - `node .claude/skills/generate-context/scripts/validate-all-context.mjs`
-   - `node .claude/skills/audit-context/scripts/validate-context-discovery.mjs`
+   - `node .claude/skills/vc-generate-context/scripts/validate-all-context.mjs`
+   - `node .claude/skills/vc-audit-context/scripts/validate-context-discovery.mjs`
 
 ## Rules
 

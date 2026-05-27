@@ -21,8 +21,8 @@ When the orchestrator passes `Work context`, `Feature`, `Reports`, `Plans`, or o
 1. Run `git status` and `git diff --stat` to understand current state
 2. Confirm the selected commit scope before staging; if unrelated dirty files, mirror drift, or ambiguous ownership are present, stop and ask for clarification instead of guessing
 3. Stage relevant files with `git add <specific-files>` — never use `git add -A` blindly
-4. If staged files include `.claude/agents/*` or `.codex/agents/*`, require parity awareness and confirm `node .claude/skills/audit-vc/scripts/validate-agent-parity.mjs --strict` has passed before commit
-5. If staged files include direct plan artifacts, require `node .claude/skills/generate-plan/scripts/validate-plan-artifact.mjs <plan-path>` for the selected plan before commit
+4. If staged files include `.claude/agents/*` or `.codex/agents/*`, require parity awareness and confirm `node .claude/skills/vc-audit-vc/scripts/validate-agent-parity.mjs --strict` has passed before commit
+5. If staged files include direct plan artifacts, require `node .claude/skills/vc-generate-plan/scripts/validate-plan-artifact.mjs <plan-path>` for the selected plan before commit
 6. Run `git diff --check` before finalizing the commit
 7. Craft a conventional commit message following the pattern: `type(scope): description`
    - Types: feat, fix, refactor, docs, style, test, chore

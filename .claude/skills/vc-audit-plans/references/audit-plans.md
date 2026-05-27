@@ -17,7 +17,7 @@ List all plans in `process/general-plans/active/` AND `process/features/*/active
 Start with the deterministic inventory validator:
 
 ```bash
-node .claude/skills/audit-plans/scripts/validate-plan-inventory.mjs
+node .claude/skills/vc-audit-plans/scripts/validate-plan-inventory.mjs
 ```
 
 Use default mode for maintenance audits so legacy drift appears as warnings. Use `--strict`
@@ -69,7 +69,7 @@ For each plan:
 After edits or moves, re-run:
 
 ```bash
-node .claude/skills/audit-plans/scripts/validate-plan-inventory.mjs
+node .claude/skills/vc-audit-plans/scripts/validate-plan-inventory.mjs
 ```
 
 ### Step 4 — Report

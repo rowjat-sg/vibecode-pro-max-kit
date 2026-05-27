@@ -50,7 +50,7 @@ Before reviewing, scout for edge cases the diff doesn't show:
 git diff --name-only HEAD~1  # Get changed files
 ```
 
-Read the scout skill at `.claude/skills/scout/SKILL.md` for codebase scouting with an edge-case-focused prompt:
+Read the scout skill at `.claude/skills/vc-scout/SKILL.md` for codebase scouting with an edge-case-focused prompt:
 ```
 Scout edge cases for recent changes.
 Changed: {files}

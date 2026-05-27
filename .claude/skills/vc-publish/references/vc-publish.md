@@ -110,7 +110,7 @@ MANAGED DIRECTORIES:
   .claude/skills/new-skill/  [NEW DIRECTORY]
     SKILL.md (45 lines)
     references/new-skill.md (80 lines)
-  .claude/skills/scout/
+  .claude/skills/vc-scout/
     [modified]  SKILL.md  (+5 -2)
   ... (28 more unchanged)
 

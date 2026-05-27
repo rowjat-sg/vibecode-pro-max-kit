@@ -1,6 +1,6 @@
 ---
 name: vc:publish
-description: Push agent harness improvements from the current development repo to the remote kit repository. Diffs managed files, shows what changed, bumps version, and pushes.
+description: Push agent harness improvements from the current development repo to the remote kit repository. Use when you want to publish local harness changes back to the shared kit. Diffs managed files, shows what changed, bumps version, and pushes.
 metadata:
   author: vibecode
   version: "1.0.0"
@@ -77,7 +77,7 @@ Managed files:
   Unchanged: 38
 
 Managed directories:
-  .claude/skills/scout        2 modified, 1 added
+  .claude/skills/vc-scout     2 modified, 1 added
   .claude/skills/vc-setup     unchanged
   ...
 
