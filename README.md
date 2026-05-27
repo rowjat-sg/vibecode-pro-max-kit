@@ -26,31 +26,47 @@ Stop your agent from jumping straight to implementation. This harness forces a s
 
 ---
 
-## The Problem
+## 🔥 The Problem
 
 You ask Claude to "add webhook support." It immediately starts writing code. No questions about your architecture. No check on existing patterns. No plan. You get 400 lines that don't fit your codebase, and you spend an hour fixing it.
 
 **This happens because your agent has no workflow.** It has intelligence but no process.
 
-## The Fix
+---
+
+## 🛠️ The Fix
 
 This harness installs a complete development system into your project — not just a CLAUDE.md file, but 12 specialized agents, 31 skills, and a phase-locked workflow that forces your agent to **understand before it builds**.
 
-```
-You: "add webhook support to the API"
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px', 'lineColor': '#8888AA'}} }%%
+flowchart TD
+    R["🔍 RESEARCH\nRead codebase, gather facts"]
+    I["💡 INNOVATE\nExplore 2-3 approaches"]
+    P["📋 PLAN\nWrite detailed spec"]
+    E["⚡ EXECUTE\nImplement the plan"]
+    T["✅ tester → reviewer → git-manager"]
+    U["🧠 UPDATE PROCESS\nCapture learnings"]
 
-  1. RESEARCH  →  Agent reads your codebase, finds existing patterns, gathers context
-  2. INNOVATE  →  Agent proposes 2-3 approaches with trade-offs
-  3. PLAN      →  Agent writes a detailed spec — you review and approve it
-  4. EXECUTE   →  Agent implements exactly what was planned
-                  → auto-chains: tester → code-reviewer → git-manager
+    R -->|"you say 'go'"| I
+    I -->|"you say 'go'"| P
+    P -->|"ENTER EXECUTE MODE"| E
+    E --> T
+    E -->|"recommended"| U
+
+    style R fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
+    style I fill:#E65100,stroke:#BF360C,color:#FFFFFF
+    style P fill:#2E7D32,stroke:#1B5E20,color:#FFFFFF
+    style E fill:#C62828,stroke:#B71C1C,color:#FFFFFF
+    style T fill:#6A1B9A,stroke:#4A148C,color:#FFFFFF
+    style U fill:#00695C,stroke:#004D40,color:#FFFFFF
 ```
 
-Every transition requires your explicit approval. Nothing auto-advances. You stay in control.
+Every transition requires your **explicit approval**. Nothing auto-advances. You stay in control.
 
 ---
 
-## Install (30 seconds)
+## 🚀 Install (30 seconds)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
@@ -65,7 +81,7 @@ Run vc-setup
 That's it. The setup skill detects your stack, asks you about your project (a real conversation, not a checklist), scaffolds the process directory, deep-scans your codebase, and populates context files with actual content — not placeholders.
 
 <details>
-<summary><strong>What happens during install</strong></summary>
+<summary><strong>📦 What happens during install</strong></summary>
 
 - **Fresh project?** Installs the full harness, then `vc-setup` studies your codebase
 - **Existing `.claude/` config?** Backs up to `.vibecode-backup/`, installs fresh, restores your `settings.json`
@@ -75,10 +91,14 @@ That's it. The setup skill detects your stack, asks you about your project (a re
 </details>
 
 <details>
-<summary><strong>Detailed setup prompt</strong> (for more control over the process)</summary>
+<summary><strong>🤖 Full agent setup prompt</strong> (copy-paste this into Claude Code for maximum control)</summary>
 
 ```
-Run vc-setup to set up this project with the agent harness.
+First, install the vibecode-pro-max-kit agent harness by running this command:
+
+curl -fsSL https://raw.githubusercontent.com/withkynam/vibecode-pro-max-kit/main/install.sh | bash
+
+After the install completes, run vc-setup to configure everything for this project.
 
 Follow the full interactive flow:
 
@@ -122,28 +142,34 @@ Important rules:
 
 ---
 
-## What Makes This Different
+## ⚡ What Makes This Different
 
-Most agent harnesses give you a big CLAUDE.md and some instructions. Here's what this one does that others don't:
+Most agent harnesses give you a big CLAUDE.md and some instructions. Here's what this one actually does:
 
-### Phase-locked execution
-Your agent literally **cannot** write code during the research phase. Each phase has tool restrictions enforced at the agent level — not just instructions that can be ignored.
+### 🔒 Phase-Locked Tool Restrictions
+Your agent literally **cannot** write code during research. Each phase has tool restrictions enforced at the agent level — RESEARCH is read-only, INNOVATE has no Bash access at all, PLAN can only write to `process/` directories. Not instructions that can be ignored — actual capability removal.
 
-### Automatic skill discovery
-When you say "add webhook support," the system automatically surfaces relevant skills (security audit, edge case generation) before routing to an agent. You don't need to know what skills exist — they find you.
+### 🎯 Smart Auto-Routing with Intent Detection
+The system detects your intent from natural language ("build", "fix", "debug", "refactor") and routes to the correct pipeline automatically. A 6-level precedence order resolves conflicts when multiple intents match. One clarifying question max — never a 20-questions interrogation.
 
-### Real project context (not placeholders)
-The setup process deep-scans your actual codebase and writes real content into context files — your real directory structure, your real tech stack with versions, your real patterns and conventions. Not `{{project_name}}` placeholder text.
+### 🔍 Automatic Skill Discovery (Step 0)
+Before routing any request, the orchestrator scans 31 skills and matches keywords. Say "add webhook support" and it automatically surfaces `vc-security` and `vc-scenario` alongside the feature workflow. You don't need to know what skills exist — they find you.
 
-### The agent asks before it acts
-Every phase transition requires your explicit approval. For existing projects, the setup skill reads what you have, shows you what it found, and asks what you want to keep vs change. It never silently reorganizes your files.
+### 📋 Spec-Driven Plans with Blast Radius
+Every non-trivial feature gets a **written plan file** with mandatory sections: touchpoints, public contracts, blast radius, verification evidence, and resume handoff. The "blast radius" section is unusual — it forces the agent to declare what could break *before* writing code.
 
-### Works across Claude Code and Codex
-The `process/` directory, plans, and context files are shared artifacts. Start a plan in Claude Code, continue in Codex. Both use the same agents, same skills, same workflow.
+### 💾 Survives Context Window Compaction
+When your context window fills up, **nothing is lost**. Plans, reports, context docs, and learnings all live in durable files. The session-init hook detects compaction events and re-injects approval gate state — so the agent can't silently skip past an approval it already received.
+
+### 🛡️ Self-Policing Violation Detection
+Every agent has a built-in interrupt protocol. When it detects it's about to cross a phase boundary, it stops itself: *"PHASE JUMPING PREVENTED: [activity] belongs to EXECUTE but I'm in RESEARCH mode."* This is a structural hallucination guard.
+
+### 🔄 Works Across Claude Code and Codex
+Plans, context, and skills are shared artifacts. `.codex/agents/` mirrors `.claude/agents/`. Start in Claude Code, continue in Codex. Same agents, same skills, same workflow.
 
 ---
 
-## How It Works
+## 🧭 How It Works
 
 ```
 Your request
@@ -155,188 +181,355 @@ Your request
 
 The orchestrator **never does the work itself** — it routes, monitors, and manages transitions.
 
-### The Workflow
+### 📊 The Workflow
 
 | Phase | What happens | You say |
 |-------|-------------|---------|
-| **RESEARCH** | Read-only fact gathering — codebase + web | *(automatic on feature requests)* |
-| **INNOVATE** | Explore 2-3 approaches with trade-offs | `go` |
-| **PLAN** | Write a detailed spec you can review | `go` |
-| **EXECUTE** | Implement exactly what was planned | `ENTER EXECUTE MODE` |
-| **UPDATE PROCESS** | Capture learnings, update context, archive plan | *(recommended after non-trivial work)* |
+| 🔍 **RESEARCH** | Read-only fact gathering — codebase + web | *(automatic on feature requests)* |
+| 💡 **INNOVATE** | Explore 2-3 approaches with trade-offs | `go` |
+| 📋 **PLAN** | Write a detailed spec you can review | `go` |
+| ⚡ **EXECUTE** | Implement exactly what was planned | `ENTER EXECUTE MODE` |
+| 🧠 **UPDATE PROCESS** | Capture learnings, update context, archive plan | *(recommended after non-trivial work)* |
 
-### Fast Mode
-
-For when you know what you want and don't need a back-and-forth:
-
-```
-You: "ENTER FAST MODE - add rate limiting to the API"
-
-→ Agent does RESEARCH + INNOVATE + PLAN in one compressed pass
-→ Writes a full plan file — then STOPS and waits for you
-→ You review the plan
-→ You say "ENTER EXECUTE MODE" → implementation begins
-```
-
-Same safety guarantees as the full flow. The agent still can't execute without your approval — it just gets to the plan faster.
-
-**Trivial fixes** (single file, <15 lines, no schema/auth changes) skip straight to execute automatically.
-
-### Update Process — Your Agent Gets Smarter Over Time
-
-Most agents forget everything between sessions. This one doesn't.
-
-After completing work, the UPDATE PROCESS phase captures what was learned — patterns discovered, conventions confirmed, gotchas encountered — and writes them into your project's living context files. Next time, the agent starts with that knowledge instead of rediscovering it.
-
-```
-After EXECUTE completes, the orchestrator asks:
-
-  "Implementation complete. Enter UPDATE PROCESS mode to
-   archive the plan and capture learnings?"
-
-→ update-process-agent archives the completed plan
-→ Updates process/context/all-context.md with new patterns
-→ Records decisions so future agents understand WHY, not just WHAT
-```
-
-This is how your agent harness compounds — each feature makes the next one faster and more accurate.
+**Shortcuts:** `ENTER FAST MODE - [task]` compresses RESEARCH+INNOVATE+PLAN into one pass — still pauses before EXECUTE. Trivial fixes (single file, <15 lines, no schema/auth changes) skip straight to execute.
 
 ---
 
-## What's Inside
+## 🛡️ Built-in Safety Systems
+
+These aren't just guidelines — they're structural enforcement built into every agent.
+
+### ⏸️ 50% Mid-Implementation Check-In
+At approximately halfway through execution, the agent **pauses** to report progress, list completed and remaining items, and asks: *"Continue with current approach or pause and return to PLAN?"* Prevents runaway implementations.
+
+### 🚫 Never Silently Deviate
+If the execute-agent hits a problem requiring deviation from the plan, it **immediately stops**, explains the issue, and returns to PLAN mode. No quiet improvising. No "I'll just work around it."
+
+### 🔙 Approach Abandonment Protocol
+When an approach fails, the agent evaluates reusable components, documents lessons before deletion, creates an abandonment summary, and returns to PLAN — not INNOVATE. Knowledge is preserved, not lost.
+
+### 🔐 Privacy Guardrails Hook
+The agent is **blocked from reading** `.env`, credentials, SSH keys, and `.pem` files. It must ask you for explicit approval before accessing any sensitive file. Fail-open design means a broken hook never blocks your workflow.
+
+### ⚠️ High-Risk Evidence Packs
+For changes touching auth, billing, schema migrations, or public APIs — the system requires a formal evidence pack (`risk-gate.json`, `verification.json`, `review-decision.json`) before the agent can call the work "done." Auto-stop if evidence is missing.
+
+### 📊 Drift Signal Scoring
+After execution, the system scores urgency for process updates: LOW (light touch), MEDIUM (significant changes), HIGH (harness/protocol files touched). Small changes get a light nudge. Protocol changes get a strong push.
+
+---
+
+## 🔍 Pre-Implementation Intelligence
+
+Before a single line of code is written, the system can catch issues through specialized analysis skills:
+
+### 🎭 5-Persona Pre-Implementation Debate (`vc-predict`)
+Five expert personas — **Architect, Security, Performance, UX, Devil's Advocate** — independently analyze your proposed change. They identify agreements, resolve conflicts through tradeoff weighting, and produce a **GO / CAUTION / STOP** verdict. The Devil's Advocate explicitly asks: *"Why not do nothing?"*
+
+### 🎲 12-Dimension Edge Case Generator (`vc-scenario`)
+Decomposes any feature across 12 dimensions: User Types, Input Extremes, Timing, Scale, State Transitions, Environment, Error Cascades, Authorization, Data Integrity, Integration, Compliance, Business Logic. Generates 3-5 scenarios per dimension, severity-ranked. Outputs are directly usable as test specs.
+
+### 🔐 STRIDE + OWASP Security Audit (`vc-security`)
+Dual-methodology security audit combining STRIDE threat modeling with OWASP Top 10. Includes dependency auditing, secret detection, and an **auto-fix mode** that sorts findings by severity and fixes Critical first — with regression guards at each step.
+
+---
+
+## 🤖 Autonomous Agent Capabilities
+
+### 🔄 Autonomous Metric Optimization (`vc-autoresearch`)
+Set a goal, walk away. The agent runs an **iterative, git-backed optimization loop** over any measurable metric — test coverage, bundle size, ESLint errors, Lighthouse score. Each iteration makes ONE atomic change, commits, measures, and keeps or reverts. Stuck detection triggers strategy shifts. Full audit trail in TSV.
+
+### 👥 Parallel Agent Teams (`vc-team`)
+Multiple independent agents working **simultaneously** — not sequentially. Four templates:
+- **Research:** N angles explored in parallel
+- **Execute:** Parallel developers with **git worktree isolation** (zero file conflicts)
+- **Review:** Independent reviewers producing deduplicated, severity-ranked findings
+- **Debug:** Competing hypotheses tested adversarially — debuggers trying to disprove each other
+
+### 🔬 Evidence-Before-Hypothesis Debugging (`vc-debugger`)
+The debugger gathers evidence first, forms 2-3 competing hypotheses, systematically tests each one, documents the elimination path, and states root cause with an evidence chain. It **never guesses — it proves.** And it doesn't implement fixes — it hands a "fix boundary" back to execute-agent.
+
+---
+
+## ✅ Quality Pipeline — Built Into Execution
+
+The execute-agent doesn't just write code and call it done. It auto-chains through a quality pipeline:
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px', 'lineColor': '#8888AA'}} }%%
+flowchart TD
+    E["⚡ Execute-Agent\nImplements the plan"]
+    SR["🔎 Self-Review\nLine-by-line check\nagainst plan"]
+    T["🧪 Tester\nDiff-aware — only\nruns affected tests"]
+    CR["🔍 Code Reviewer\nEdge case scout\n+ adversarial review"]
+    CS["✨ Code Simplifier\nClarity refactoring"]
+    GM["📦 Git Manager\nLogical commit splitting\nfrom touched_files"]
+
+    E --> SR
+    SR --> T
+    T --> CR
+    CR --> CS
+    CS --> GM
+
+    style E fill:#C62828,stroke:#B71C1C,color:#FFFFFF
+    style SR fill:#AD1457,stroke:#880E4F,color:#FFFFFF
+    style T fill:#6A1B9A,stroke:#4A148C,color:#FFFFFF
+    style CR fill:#283593,stroke:#1A237E,color:#FFFFFF
+    style CS fill:#00695C,stroke:#004D40,color:#FFFFFF
+    style GM fill:#37474F,stroke:#263238,color:#FFFFFF
+```
+
+- 🔎 **Self-review against plan** — checks every checklist item for deviations, documents them
+- 🧪 **Diff-aware tester** — maps changed files to test files, auto-escalates to full suite when >70% mapped
+- 🔍 **Code reviewer** — dispatches edge case scout BEFORE review, checks N+1 queries, auth paths, data leaks
+- ✨ **Code simplifier** — clarity refactoring after review passes
+- 📦 **Git manager** — receives `touched_files` list, splits into logical conventional commits, refuses to stage unknown files
+
+---
+
+## 📋 The Plan Lifecycle — Spec-Driven, Not Vibes-Driven
+
+Every non-trivial feature follows a **plan lifecycle** — a written spec that is created, reviewed, executed against, and archived as project history.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px', 'lineColor': '#8888AA'}} }%%
+flowchart TD
+    A["🆕 Feature Request"]
+    B["📝 Plan Created\nin active/"]
+    C{"👀 User Reviews\nthe Plan"}
+    D["⚡ Execute Against Plan"]
+    E["📦 Plan Archived\nto completed/"]
+    F["🧠 Learnings Written\nto all-context.md"]
+    G["🔄 Next Feature\nStarts Smarter"]
+
+    A --> B
+    B --> C
+    C -->|"✅ Approved"| D
+    C -->|"✏️ Needs Changes"| B
+    D --> E
+    E --> F
+    F --> G
+    G -.->|"context compounds"| A
+
+    style A fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
+    style B fill:#E65100,stroke:#BF360C,color:#FFFFFF
+    style C fill:#F57F17,stroke:#F9A825,color:#000000
+    style D fill:#C62828,stroke:#B71C1C,color:#FFFFFF
+    style E fill:#6A1B9A,stroke:#4A148C,color:#FFFFFF
+    style F fill:#00695C,stroke:#004D40,color:#FFFFFF
+    style G fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
+```
+
+**What's in a plan file:**
+
+- 📍 **Touchpoints** — every file that will be created or modified, listed upfront
+- 📜 **Public contracts** — what API surfaces or interfaces change
+- 💥 **Blast radius** — what could break, what tests to run, what to watch
+- ✅ **Verification evidence** — how to prove the implementation is correct
+- 🔄 **Resume handoff** — enough context for any agent to pick up mid-plan
+
+> 💡 Six months from now, when someone asks "why did we build auth this way?", the answer is in `completed/`. Not lost in a Slack thread.
+
+---
+
+## 🏗️ Phase Programs — Large Projects That Don't Fall Apart
+
+Normal features use one plan. **Large multi-phase projects** use a phase program — an umbrella plan plus individual phase plans, each with its own validation gate.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px', 'lineColor': '#8888AA'}} }%%
+flowchart TD
+    UP["🎯 Umbrella Plan\nOverall program goal"]
+    P1["📋 Phase 1 Plan"]
+    P2["📋 Phase 2 Plan"]
+    P3["📋 Phase 3 Plan"]
+
+    R1["🔍 Re-Research"]
+    E1["⚡ Execute"]
+    V1["✅ Validate"]
+    RP1["📄 Durable Report"]
+
+    R2["🔍 Re-Research"]
+    E2["⚡ Execute"]
+    V2["✅ Validate"]
+    RP2["📄 Durable Report"]
+
+    UP --> P1
+    UP --> P2
+    UP --> P3
+
+    P1 --> R1
+    R1 -->|"approval"| E1
+    E1 --> V1
+    V1 --> RP1
+    RP1 -.->|"learnings feed\nnext phase"| R2
+
+    P2 --> R2
+    R2 -->|"approval"| E2
+    E2 --> V2
+    V2 --> RP2
+
+    style UP fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
+    style P1 fill:#E65100,stroke:#BF360C,color:#FFFFFF
+    style P2 fill:#E65100,stroke:#BF360C,color:#FFFFFF
+    style P3 fill:#E65100,stroke:#BF360C,color:#FFFFFF
+    style R1 fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
+    style E1 fill:#C62828,stroke:#B71C1C,color:#FFFFFF
+    style V1 fill:#2E7D32,stroke:#1B5E20,color:#FFFFFF
+    style RP1 fill:#6A1B9A,stroke:#4A148C,color:#FFFFFF
+    style R2 fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
+    style E2 fill:#C62828,stroke:#B71C1C,color:#FFFFFF
+    style V2 fill:#2E7D32,stroke:#1B5E20,color:#FFFFFF
+    style RP2 fill:#6A1B9A,stroke:#4A148C,color:#FFFFFF
+```
+
+**Key features:**
+
+- 🔄 **Re-research at every phase** — checks for code drift, reads latest reports, updates assumptions
+- ✅ **Validation gates** — a phase isn't `VERIFIED` until evidence proves it. Honest status: `PLANNED` → `CODE DONE` → `TESTING` → `VERIFIED` or `BLOCKED`
+- 📄 **Durable reports** — every phase writes results to disk. Progress survives context compaction
+- 🧠 **Learnings feed forward** — Phase 1 discoveries update Phase 2's plan before execution
+- 🏗️ **Foundation vs expansion** — explicitly splits "prove the architecture" from "implement everything" to prevent scope creep
+- 🚧 **Honest blocker handling** — blocked phases stay `BLOCKED` with evidence. No forcing green status
+
+---
+
+## 🧠 Context Groups — Organized Knowledge, Not One Giant File
+
+Project knowledge is organized into **context groups** — durable knowledge domains, each with an `all-{group}.md` router that tells agents what to read and when.
+
+```
+process/context/
+├── all-context.md              # 🧭 Root router — architecture, stack, patterns, conventions
+├── tests/
+│   └── all-tests.md            # 🧪 Test runners, commands, debugging procedures
+├── container/
+│   └── all-container.md        # 🐳 Docker, deployment, infra procedures
+└── {your-domain}/
+    └── all-{domain}.md         # 📚 Any knowledge domain with 3+ durable docs
+```
+
+- 🧭 **Router pattern** — agents read only what's relevant to their task, not everything
+- 📏 **Auto-promotion** — topics with 3+ docs or 800+ lines get their own context group
+- 🔄 **Living docs** — updated by `update-process-agent` after every non-trivial feature
+- 🧪 **Auditable** — `vc-audit-context` verifies routing and consistency
+
+---
+
+## 📁 Feature Folders — Self-Organizing Project Memory
+
+When a topic accumulates 5+ artifacts, it gets its own **feature folder** — a complete lifecycle container.
+
+```
+process/features/{feature}/
+├── active/       # 📋 Plans currently being worked on
+├── completed/    # ✅ Archived plans (searchable decision history)
+├── backlog/      # 📌 Deferred work (agents check before duplicating)
+├── reports/      # 📄 Execution reports, post-mortems, validation results
+└── references/   # 📚 Research outputs that inform future decisions
+```
+
+- 🆕 New work starts in `active/` → ⚡ reports accumulate → ✅ plan archives to `completed/`
+- 📌 Deferred work goes to `backlog/` — agents check it before creating duplicate plans
+- 📦 Feature promotion happens automatically when general artifacts hit 5+
+- 🔍 Every feature has complete, self-contained history — plans, decisions, reports, research
+
+---
+
+## 🤖 What's Inside
 
 ### 12 Agents
 
-<details>
-<summary><strong>Core workflow agents</strong> (click to expand)</summary>
+**Core workflow agents** — one per RIPER-5 phase:
 
 | Agent | Role |
 |-------|------|
-| `vc-research-agent` | Codebase + web research, read-only |
-| `vc-innovate-agent` | Brainstorm approaches, no code or decisions |
-| `vc-plan-agent` | Write spec to `process/general-plans/active/` |
-| `vc-execute-agent` | Implement approved plan |
-| `vc-fast-mode-agent` | Compressed RESEARCH→INNOVATE→PLAN, then pause |
-| `vc-update-process-agent` | Capture learnings, archive plans |
+| 🔍 `vc-research-agent` | Codebase + web research, read-only. Contradiction tracking built in |
+| 💡 `vc-innovate-agent` | Brainstorm 2-3 approaches. Must produce decision summary before PLAN |
+| 📋 `vc-plan-agent` | Write spec with anti-rationalization guards. "I already know how" is not a plan |
+| ⚡ `vc-execute-agent` | Implement per plan. 50% check-in, deviation protocol, self-review |
+| ⏩ `vc-fast-mode-agent` | Compressed RESEARCH→INNOVATE→PLAN with mandatory safety pause |
+| 🧠 `vc-update-process-agent` | 7-phase mandatory checklist including stale artifact scanning |
 
-</details>
-
-<details>
-<summary><strong>Specialist agents</strong> (click to expand)</summary>
+**Specialist agents** — called during EXECUTE or standalone:
 
 | Agent | Role |
 |-------|------|
-| `vc-debugger` | Evidence-first root cause analysis |
-| `vc-tester` | Diff-aware test verification |
-| `vc-code-reviewer` | Pre-PR adversarial review |
-| `vc-code-simplifier` | Refactor for clarity without behavior change |
-| `vc-ui-ux-designer` | Design-aware frontend implementation |
-| `vc-git-manager` | Conventional commits + push |
-
-</details>
+| 🐛 `vc-debugger` | Evidence-before-hypothesis. Competing hypotheses, elimination chains |
+| 🧪 `vc-tester` | Diff-aware. Only runs affected tests. Auto-escalates on config changes |
+| 🔎 `vc-code-reviewer` | Edge case scout BEFORE review. N+1 detection, auth path validation |
+| ✨ `vc-code-simplifier` | Clarity refactoring without behavior change |
+| 🎨 `vc-ui-ux-designer` | Design-aware frontend. Can spawn research subagent mid-execution |
+| 📦 `vc-git-manager` | Logical commit splitting from `touched_files`. Refuses unknown files |
 
 ### 31 Skills (auto-discovered)
 
-<details>
-<summary><strong>Full skill catalog</strong> (click to expand)</summary>
+**🔧 Contract skills** — `vc-generate-plan` · `vc-generate-context` · `vc-audit-context` · `vc-audit-plans` · `vc-audit-vc` · `vc-setup` · `vc-update` · `vc-publish`
 
-**Contract skills** — project lifecycle management:
-`vc-generate-plan` · `vc-generate-context` · `vc-audit-context` · `vc-audit-plans` · `vc-audit-vc` · `vc-setup` · `vc-update` · `vc-publish`
+**🧠 Planning** — `vc-predict` (5-persona debate) · `vc-scenario` (12-dimension edge cases) · `vc-sequential-thinking` · `vc-problem-solving`
 
-**Planning & analysis:**
-`vc-predict` (5-persona risk debate) · `vc-scenario` (edge cases across 12 dimensions) · `vc-sequential-thinking` · `vc-problem-solving`
+**🐛 Debug & security** — `vc-debug` · `vc-security` (STRIDE + OWASP + auto-fix) · `vc-autoresearch` (autonomous optimization)
 
-**Debug & security:**
-`vc-debug` (systematic root cause) · `vc-security` (STRIDE + OWASP audit) · `vc-autoresearch` (autonomous metric optimization)
+**📚 Research** — `vc-docs-seeker` · `vc-scout` · `vc-docs` · `vc-repomix` · `vc-xia` (repo comparison)
 
-**Research & docs:**
-`vc-docs-seeker` · `vc-scout` · `vc-docs` · `vc-repomix` · `vc-xia`
+**🎨 Frontend** — `vc-frontend-design` · `vc-chrome-devtools` · `vc-agent-browser` · `vc-web-testing`
 
-**Frontend & browser:**
-`vc-frontend-design` (anti-AI-slop UI) · `vc-chrome-devtools` · `vc-agent-browser` · `vc-web-testing`
+**⚙️ Utilities** — `vc-context-engineering` · `vc-mcp-management` · `vc-preview` · `vc-team` (parallel agents) · `vc-tech-graph` · `vc-watzup` (session handoff) · `vc-merge-worktree`
 
-**Utilities:**
-`vc-context-engineering` · `vc-mcp-management` · `vc-preview` · `vc-team` · `vc-tech-graph` · `vc-watzup` · `vc-merge-worktree`
+### 🪝 7 Hooks
 
-</details>
-
-### 7 Hooks
-
-Session initialization, privacy guardrails, scout file blocking, usage tracking, edit quality reminders, subagent context injection, descriptive naming enforcement.
+| Hook | What it does |
+|------|-------------|
+| 🔐 **Privacy guardrails** | Blocks `.env`, credentials, SSH keys. Requires explicit approval |
+| 🚫 **Scout blocker** | Prevents agent from wandering into `node_modules/`, `dist/`. Gitignore-syntax `.ckignore` |
+| 🧠 **Session init** | Detects stack, injects env vars, recovers approval gates after compaction |
+| 💉 **Subagent context** | Injects ~200 token compact context block into every subagent |
+| ✨ **Edit quality** | After 5+ edits, nudges to run code-simplifier (non-blocking, throttled) |
+| 📛 **Descriptive naming** | Language-aware file naming conventions on every Write |
+| 📊 **Usage tracking** | Session metrics and token awareness |
 
 ---
 
-## Typical Session
+## 💻 Typical Session
 
 ```
-# Feature request
+# 🆕 Feature request
 You: "add webhook support to the API"
 → Skill discovery surfaces: vc-scenario, vc-security
-→ research-agent gathers context
+→ research-agent gathers context (read-only, can't touch code)
 → You say "go" → innovate-agent explores approaches
-→ You say "go" → plan-agent writes the spec
+→ You say "go" → plan-agent writes spec with blast radius
 → You review the plan, say "ENTER EXECUTE MODE"
-→ execute-agent implements → tester → code-reviewer → git-manager
+→ execute-agent implements → self-review → tester → code-reviewer → git-manager
+→ Closeout packet: what changed, what's verified, recommended next step
 
-# Bug fix
+# 🐛 Bug fix
 You: "login redirect is broken"
-→ Routes to vc-debugger for root cause analysis
-→ Then execute-agent implements the fix
-→ tester → code-reviewer → git-manager
+→ Routes to vc-debugger → evidence gathering → competing hypotheses
+→ Root cause identified with proof chain
+→ execute-agent implements the fix → quality pipeline
 
-# Fast mode (when you know what you want)
+# ⏩ Fast mode
 You: "ENTER FAST MODE - add rate limiting middleware"
 → Compressed research+innovate+plan in one pass
-→ You review the plan, say "ENTER EXECUTE MODE"
-→ Done in minutes, not phases
+→ Mandatory safety pause → you review → "ENTER EXECUTE MODE"
 
-# Quick question
-You: "how does the auth middleware work?"
-→ Orchestrator answers directly from codebase
-
-# Large program
+# 🏗️ Large program
 You: "build a full testing platform"
-→ Creates umbrella plan + phase plans
-→ Each phase: research → approve → execute → validate → report
+→ Creates umbrella plan + phase plans in a feature folder
+→ Each phase: re-research → approve → execute → validate → durable report
+→ Progress survives context compaction — durable reports on disk
+
+# 🔄 Autonomous optimization
+You: "improve test coverage to 80% using vc-autoresearch"
+→ Agent iterates: make change → commit → measure → keep/revert
+→ Stuck detection after 5 consecutive discards → strategy shift
+→ Full audit trail in TSV
 ```
 
 ---
 
-## Project Structure — Living Knowledge, Not Dead Docs
-
-After setup, your project gets a `process/` directory. This isn't just organization — it's **project memory that persists across sessions, agents, and teammates**.
-
-```
-process/
-├── context/              # Living project knowledge (auto-populated, agent-maintained)
-│   ├── all-context.md    # Authoritative project reference — real stack, real patterns
-│   └── tests/            # Test runner config, commands, debugging procedures
-├── general-plans/        # Cross-cutting work
-│   ├── active/           # In-progress plans (agents resume from here)
-│   ├── completed/        # Archived plans (searchable decision history)
-│   ├── backlog/          # Future work (agents check before duplicating)
-│   └── reports/          # Operational reports and post-mortems
-├── features/             # Feature-scoped work (auto-created when 5+ artifacts accumulate)
-│   └── {feature}/
-│       ├── active/       # Feature plans in progress
-│       ├── completed/    # Feature decision history
-│       └── reports/      # Feature-specific reports
-├── development-protocols/ # Shared workflow rules (managed by harness)
-└── _seeds/               # Templates for new files
-```
-
-**Why this matters:**
-
-- **Plans are resumable.** Close your laptop, come back tomorrow, say "continue" — the agent finds your active plan and picks up where you left off. No re-explaining.
-- **Context compounds.** Every completed feature updates `all-context.md` with patterns and decisions. Session 50 is dramatically better than session 1.
-- **History is searchable.** Completed plans in `completed/` explain *why* things were built a certain way — invaluable when you revisit code months later.
-- **Features self-organize.** When a topic accumulates enough artifacts, it gets its own feature folder. Cross-cutting work stays in `general-plans/`.
-
-Plans use date-stamped naming: `webhook-support_PLAN_07-04-26.md`
-
----
-
-## Updating
+## 🔄 Updating
 
 Pull the latest harness improvements:
 
@@ -344,11 +537,11 @@ Pull the latest harness improvements:
 Run vc-update
 ```
 
-Shows a dry-run diff of what changed, waits for your confirmation, then applies updates. Your `process/` directory and project-specific content are never touched.
+Shows a dry-run diff, waits for confirmation. Your `process/` directory and project-specific content are never touched.
 
 ---
 
-## Star History
+## ⭐ Star History
 
 <a href="https://star-history.com/#withkynam/vibecode-pro-max-kit&Date">
  <picture>
@@ -360,6 +553,6 @@ Shows a dry-run diff of what changed, waits for your confirmation, then applies 
 
 ---
 
-## License
+## 📄 License
 
 MIT
