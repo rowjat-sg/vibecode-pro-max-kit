@@ -1,14 +1,13 @@
-<p align="center">
-  <h1 align="center">vibecode-pro-max-kit</h1>
-  <p align="center">
-    <strong>The complete agent development harness for Claude Code + Codex</strong>
-  </p>
-  <p align="center">
-    Not just configs — a complete development methodology with phase-locked safety, skill discovery, and subagent orchestration.
-  </p>
-</p>
+<div align="center">
 
-<p align="center">
+# vibecode-pro-max-kit
+
+**The complete agent development harness for Claude Code + Codex**
+
+Not just configs — a self-improving development system with phase-locked safety,
+living project knowledge, and autonomous agent orchestration.
+
+<p>
   <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
   <img src="https://img.shields.io/badge/agents-12-orange" alt="Agents">
@@ -17,97 +16,191 @@
   <img src="https://img.shields.io/badge/platforms-Claude_Code_%7C_Codex-black" alt="Platforms">
 </p>
 
+**12 agents** · **32 skills** · **7 hooks** · **6 dev protocols** · **17 seed templates**
+
+</div>
+
 ---
 
-**12 agents** | **32 skills** | **7 hooks** | **6 dev protocols** | **17 seed templates**
+## Install (one command)
+
+**New project:**
+
+```bash
+npx degit withkynam/vibecode-pro-max-kit my-project
+cd my-project && git init
+```
+
+**Existing project:**
+
+```bash
+npx degit withkynam/vibecode-pro-max-kit /tmp/vc-kit
+cp -R /tmp/vc-kit/{.claude,.codex,.agents,CLAUDE.md,AGENTS.md,process} .
+rm -rf /tmp/vc-kit
+```
+
+**Already installed? Update anytime:**
+
+```
+Run the vc-update skill
+```
+
+> Shows a dry-run diff, waits for your OK, then applies. Your project files are never touched.
 
 ---
 
-## How It Works
+## What Makes This Different
+
+Most agent harnesses give you configs. This gives you a **complete development system** that gets smarter the more you use it.
+
+### 1. Phase-Locked Safety (RIPER-5)
+
+Every request goes through strict phases. You can't accidentally ship half-baked code.
 
 ```
 Your Request
   │
   ▼
-┌──────────────────────────────────────┐
-│  Step 0: Skill Discovery             │
-│  Match keywords → surface skills     │
-└──────────────┬───────────────────────┘
-               ▼
-┌──────────────────────────────────────┐
-│  Intent Detection                    │
-│  feature / bug / question / UI       │
-└──────────────┬───────────────────────┘
-               ▼
-┌──────────────────────────────────────┐
-│  Route to Specialist Agent           │
-│  research → innovate → plan → exec   │
-└──────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│  RESEARCH   — Read-only investigation                │
+│  INNOVATE   — Explore 2-3 approaches, trade-offs     │
+│  PLAN       — Write spec with checklist + blast radius│
+│  EXECUTE    — Implement exactly per approved plan     │
+│  UPDATE     — Capture learnings, improve the system   │
+└──────────────────────────────────────────────────────┘
 ```
 
-Every request is routed through RIPER-5: a strict phase-locked workflow that prevents premature implementation and ensures quality through enforced mode boundaries.
+The orchestrator enforces boundaries: RESEARCH can't modify files, EXECUTE can't start without an approved plan. Phase transitions require your explicit confirmation.
+
+### 2. Living Project Knowledge (`process/`)
+
+Your project builds a **persistent knowledge base** that agents read on every task:
+
+```
+process/
+├── context/                    ← Project knowledge (grows over time)
+│   ├── all-context.md          ← Root: architecture, stack, patterns, conventions
+│   ├── tests/all-tests.md      ← Test commands, debugging, CI setup
+│   ├── infra/all-infra.md      ← Deployment, Docker, env vars
+│   └── {topic}/all-{topic}.md  ← Any domain that needs its own group
+├── features/                   ← Feature-scoped plans + reports
+│   ├── auth/active/            ← In-progress auth plans
+│   ├── auth/completed/         ← Archived completed work
+│   └── auth/reports/           ← Execution reports, learnings
+├── general-plans/              ← Cross-cutting plans
+│   ├── active/                 ← Current work
+│   ├── completed/              ← Done and archived
+│   └── reports/                ← Operational reports
+├── development-protocols/      ← How agents work (managed by harness)
+└── _seeds/                     ← Templates for bootstrapping (managed by harness)
+```
+
+**Why this matters:**
+- Every agent reads `all-context.md` before working — they know your stack, patterns, and conventions
+- Plans are durable artifacts with checklists, blast radius analysis, and verification evidence
+- Feature folders accumulate knowledge: completed plans become reference for future work
+- Context groups scale as your project grows — split when a topic exceeds ~800 lines
+
+### 3. The Self-Improving Loop
+
+This is the killer feature. After every non-trivial task:
+
+```
+EXECUTE completes
+  │
+  ▼
+┌─────────────────────────────────────────────────────────────┐
+│  UPDATE PROCESS                                             │
+│                                                             │
+│  • Archive completed plan to completed/                     │
+│  • Capture learnings → update context docs                  │
+│  • Fix patterns that caused bugs → update conventions       │
+│  • New testing insight → update all-tests.md                │
+│  • Architectural decision → update all-context.md           │
+│                                                             │
+│  Result: Next task starts with MORE knowledge               │
+└─────────────────────────────────────────────────────────────┘
+         │
+         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  AUDIT SKILLS (periodic)                                    │
+│                                                             │
+│  • audit-context  → fix stale docs, missing groups          │
+│  • audit-plans    → clean up abandoned plans                │
+│  • audit-vc       → verify agent/skill parity               │
+│  • ck-autoresearch → optimize metrics autonomously          │
+│                                                             │
+│  Result: System stays healthy as it grows                   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Day 1**: Agents know nothing about your project. Context is empty.
+**Day 7**: Context has your architecture, test patterns, and 3 completed feature plans.
+**Day 30**: Agents anticipate your conventions, reference past decisions, and avoid known pitfalls.
+
+The more you build, the better your agents get. No manual training required.
 
 ---
 
-## Quickstart
+## Quickstart (after install)
 
-### 1. Install the harness
-
-```bash
-# Clone the kit into a temp directory
-git clone --depth 1 https://github.com/withkynam/vibecode-pro-max-kit.git /tmp/vc-kit
-
-# In your project, invoke vc-setup (or copy manually)
-# The vc-setup skill scaffolds everything into your repo
-```
-
-### 2. Generate your project context
-
-Open Claude Code or Codex in your project and say:
+**1. Generate your project context:**
 
 ```
 Run the generate-context skill
 ```
 
-This creates `process/context/all-context.md` — the root knowledge file that all agents reference.
+The agent studies your repo — tech stack, file structure, patterns, tests — and writes `process/context/all-context.md`. This is the single file that makes every future agent interaction context-aware.
 
-### 3. Start building
+**2. Start building:**
 
 ```
-Add a user authentication system
+Add a webhook notification system
 ```
 
-The orchestrator detects intent, discovers relevant skills (`ck-security`, `web-testing`), and routes through RESEARCH -> INNOVATE -> PLAN -> EXECUTE automatically.
+The orchestrator auto-detects "feature request", discovers relevant skills (`ck-scenario`, `ck-security`, `web-testing`), and routes through RESEARCH → INNOVATE → PLAN → EXECUTE.
+
+**3. Quick shortcuts:**
+
+| What you want | What to say |
+|---|---|
+| Skip to implementation | `ENTER FAST MODE - add dark mode toggle` |
+| Fix a small bug | `Fix the broken date format in utils.ts` (auto-routes to execute) |
+| Debug something complex | `Debug why the API returns 500 on login` (routes to debugger agent) |
+| Improve test coverage | `Run ck-autoresearch to improve test coverage` (autonomous loop) |
 
 ---
 
 ## What's Included
 
-### Core Agents (6)
+### 12 Agents
 
-| Agent | Purpose | Phase |
-|---|---|---|
-| `research-agent` | Read-only information gathering | RESEARCH |
-| `innovate-agent` | Brainstorm approaches, no decisions | INNOVATE |
-| `plan-agent` | Write detailed specifications | PLAN |
-| `execute-agent` | Implement per approved plan | EXECUTE |
-| `fast-mode-agent` | Compressed R->I->P->E with safety pause | FAST |
-| `update-process-agent` | Capture learnings, archive plans | UPDATE |
+**Core (RIPER-5 phases):**
 
-### Specialist Agents (6)
+| Agent | What it does |
+|---|---|
+| `research-agent` | Read-only codebase + web investigation |
+| `innovate-agent` | Brainstorm approaches, no decisions |
+| `plan-agent` | Write detailed specs with checklists |
+| `execute-agent` | Implement exactly per approved plan |
+| `fast-mode-agent` | Compressed R→I→P→E with safety pause |
+| `update-process-agent` | Capture learnings, update context, archive plans |
 
-| Agent | Purpose | When to Use |
-|---|---|---|
-| `tester` | Diff-aware test verification | After implementation steps |
-| `debugger` | Root cause analysis | Bug investigation |
-| `code-reviewer` | Production-readiness review | Pre-PR quality gate |
-| `code-simplifier` | Clarity refactor, no behavior change | After code-reviewer passes |
-| `ui-ux-designer` | Design-aware frontend implementation | UI/UX tasks |
-| `git-manager` | Clean conventional commits | Git operations |
+**Specialists:**
 
-### Skills by Category
+| Agent | What it does |
+|---|---|
+| `debugger` | Evidence-first root cause analysis |
+| `tester` | Diff-aware test verification |
+| `code-reviewer` | Adversarial pre-PR review |
+| `code-simplifier` | Clarity refactor, no behavior change |
+| `ui-ux-designer` | Design-aware frontend implementation |
+| `git-manager` | Clean conventional commits |
 
-**Contract Skills** — define workflow artifacts:
+### 32 Skills
+
+<details>
+<summary><strong>Contract Skills</strong> — define workflow artifacts</summary>
 
 | Skill | Purpose |
 |---|---|
@@ -117,27 +210,36 @@ The orchestrator detects intent, discovers relevant skills (`ck-security`, `web-
 | `audit-plans` | Audit active-plan inventory and staleness |
 | `audit-vc` | Audit harness health and agent parity |
 
-**Analysis Skills** — deep investigation:
+</details>
+
+<details>
+<summary><strong>Analysis Skills</strong> — deep investigation</summary>
 
 | Skill | Purpose |
 |---|---|
-| `ck-debug` | Root cause analysis helper |
+| `ck-debug` | Systematic root cause analysis |
 | `ck-scenario` | Edge case generation across 12 dimensions |
 | `ck-security` | STRIDE + OWASP security audit |
 | `ck-predict` | 5-persona pre-implementation debate |
 | `ck-autoresearch` | Autonomous metric optimization loop |
 | `scout` | Fast parallel codebase scouting |
 
-**Creation Skills** — build and design:
+</details>
+
+<details>
+<summary><strong>Creation Skills</strong> — build and design</summary>
 
 | Skill | Purpose |
 |---|---|
 | `frontend-design` | Polished UI from designs/screenshots |
-| `tech-graph` | Publish-grade SVG/PNG diagrams |
+| `tech-graph` | Publish-grade SVG/PNG technical diagrams |
 | `web-testing` | Playwright/Vitest/k6 test automation |
 | `docs` | Project documentation management |
 
-**Utility Skills** — workflow helpers:
+</details>
+
+<details>
+<summary><strong>Utility Skills</strong> — workflow helpers</summary>
 
 | Skill | Purpose |
 |---|---|
@@ -146,242 +248,217 @@ The orchestrator detects intent, discovers relevant skills (`ck-security`, `web-
 | `context-engineering` | Token/context optimization |
 | `preview` | Visual diagrams, slides, file viewer |
 | `repomix` | Repository packing for audits |
-| `xia` | Repo comparison and adaptation |
-| `watzup` | Worktree and active-plan summary |
+| `xia` | Repo comparison and adaptation research |
+| `watzup` | Branch status and active-plan summary |
 | `docs-seeker` | Library docs via context7 |
 | `chrome-devtools` | Puppeteer browser automation |
 | `agent-browser` | AI browser automation CLI |
 | `mcp-management` | MCP server tools |
 | `team` | Multi-agent parallel collaboration |
 
-**Harness Management Skills**:
+</details>
+
+<details>
+<summary><strong>Harness Management</strong></summary>
 
 | Skill | Purpose |
 |---|---|
 | `vc-setup` | Scaffold harness into new project |
 | `vc-update` | Pull latest harness from remote |
 | `vc-publish` | Push improvements to remote kit repo |
-| `add-worktree` | Create Git worktrees |
-| `merge-worktree` | Merge Git worktrees |
+| `add-worktree` | Create isolated Git worktrees |
+| `merge-worktree` | Merge and clean up worktrees |
 
-### Hooks (7)
+</details>
 
-| Hook | Purpose |
+### 7 Hooks
+
+| Hook | What it does |
 |---|---|
-| `session-init` | Initialize session context and statusline |
-| `session-state` | Track session state across messages |
-| `subagent-init` | Configure subagent context injection |
-| `descriptive-name` | Generate descriptive session names |
+| `session-init` | Initialize session context + statusline |
+| `session-state` | Track state across messages |
+| `subagent-init` | Inject context into subagents |
+| `descriptive-name` | Auto-name sessions descriptively |
 | `scout-block` | Prevent unscoped file searches |
 | `privacy-block` | Block sensitive data exposure |
-| `post-edit-simplify-reminder` | Suggest simplification after edits |
+| `post-edit-simplify-reminder` | Nudge simplification after edits |
 
-### Development Protocols (6)
+### 6 Development Protocols
 
-| Protocol | Purpose |
+| Protocol | What it governs |
 |---|---|
 | `orchestration` | Delegation rules, status codes, context isolation |
 | `implementation-standards` | Coding conventions and quality gates |
-| `plan-lifecycle` | Plan creation, review, archival workflow |
+| `plan-lifecycle` | Plan creation, review, archival |
 | `phase-programs` | Multi-phase large program management |
 | `context-maintenance` | Context group lifecycle and discovery |
 | `all-development-protocols` | Root entrypoint and routing |
-
-### Seed Templates (17)
-
-Ready-to-use templates for bootstrapping your `process/` directory:
-
-- Context router template (`all-context.md.seed`)
-- Context group template (`_all-group-template.md.seed`)
-- Test routing template (`all-tests.md.seed`)
-- Planning routing template (`all-planning.md.seed`)
-- Feature folder template with guides for each subdirectory
-- General plans directory structure with guides
-- Example PRDs (simple and complex)
-
----
-
-## RIPER-5 Phases
-
-| Phase | Command | What Happens |
-|---|---|---|
-| **RESEARCH** | `ENTER RESEARCH MODE` | Read-only investigation. No file modifications. |
-| **INNOVATE** | `ENTER INNOVATE MODE` | Discuss approaches. No decisions made. |
-| **PLAN** | `ENTER PLAN MODE` | Write detailed spec. No implementation. |
-| **EXECUTE** | `ENTER EXECUTE MODE` | Implement exactly per approved plan. |
-| **UPDATE** | `ENTER UPDATE PROCESS MODE` | Capture learnings, archive plan. |
-| **FAST** | `ENTER FAST MODE` | All phases compressed with safety pause before EXECUTE. |
-
-Phase transitions are strict: you cannot skip from RESEARCH to EXECUTE. The orchestrator enforces this automatically.
 
 ---
 
 ## Session Examples
 
-### New Feature
+### New Feature (full RIPER-5)
 
 ```
-You: Add a webhook notification system
+You: Add webhook support to the notifications API
 
-Orchestrator: [MODE: ORCHESTRATOR] Detected feature request.
-  Relevant skills: web-testing, ck-scenario, ck-security
+Orchestrator: Detected feature request.
+  Skills discovered: ck-scenario, ck-security, web-testing
   Routing to research-agent...
 
-research-agent: [MODE: RESEARCH] Found existing notification patterns...
-  Ready for INNOVATE.
+research-agent: Found existing notification patterns in src/notifications/...
+  3 webhook libraries evaluated. Ready for INNOVATE.
 
 You: go
 
-innovate-agent: [MODE: INNOVATE] Three approaches considered...
-  Recommended: event-driven with queue. Ready for PLAN.
+innovate-agent: Three approaches compared:
+  1. Event-driven with queue (recommended)
+  2. Direct HTTP callbacks
+  3. Polling-based
+  Decision: #1 — resilient, retryable, scalable.
 
 You: go
 
-plan-agent: [MODE: PLAN] Created webhook-notifications_PLAN_27-05-26.md
-  Please review and say "ENTER EXECUTE MODE" to proceed.
+plan-agent: Created process/general-plans/active/webhook-support_PLAN_27-05-26.md
+  12 checklist items, blast radius: 4 files, verification: 8 tests.
+  Review and say "ENTER EXECUTE MODE" to proceed.
 
 You: ENTER EXECUTE MODE
 
-execute-agent: [MODE: EXECUTE] Implementing per approved plan...
-  ✓ 8/8 checklist items complete. All tests passing.
+execute-agent: Implementing per plan...
+  ✓ 12/12 items complete. 8 new tests passing.
+
+Orchestrator: Implementation complete. Recommend UPDATE PROCESS
+  to archive plan and capture webhook patterns in context.
 ```
 
-### Quick Bug Fix
+### Quick Bug Fix (auto-routes)
 
 ```
-You: Fix the broken date formatting in the dashboard
+You: Fix the date formatting bug in the dashboard
 
-Orchestrator: Trivial fix detected (single file, no schema change).
+Orchestrator: Trivial fix (single file, no schema change).
   Routing directly to execute-agent.
 
-execute-agent: Fixed date format string in dashboard-utils.ts.
-  Changed: "YYYY-DD-MM" → "YYYY-MM-DD"
+execute-agent: Fixed format string in dashboard-utils.ts
+  "YYYY-DD-MM" → "YYYY-MM-DD". Existing test updated.
 ```
 
-### Fast Mode
+### Fast Mode (compressed)
 
 ```
-You: ENTER FAST MODE - add dark mode toggle to settings page
+You: ENTER FAST MODE - add dark mode toggle
 
-fast-mode-agent: [MODE: FAST]
-  RESEARCH: Found existing theme system...
-  INNOVATE: CSS variables approach selected...
-  PLAN: Created dark-mode_PLAN_27-05-26.md
+fast-mode-agent:
+  RESEARCH: Found existing theme CSS variables...
+  INNOVATE: CSS custom properties + localStorage approach...
+  PLAN: Created dark-mode_PLAN_27-05-26.md (6 items)
 
-  ⏸ PAUSED — Review plan above. Say "ENTER EXECUTE MODE" to proceed.
+  ⏸ PAUSED — Review plan. Say "ENTER EXECUTE MODE" to proceed.
 
 You: ENTER EXECUTE MODE
 
-fast-mode-agent: [MODE: EXECUTE] Implementing...
-  ✓ Toggle component created
-  ✓ CSS variables added
-  ✓ LocalStorage persistence
-  Done.
+fast-mode-agent: ✓ Toggle component, CSS variables, persistence. Done.
+```
+
+### Self-Improving Loop
+
+```
+You: ENTER UPDATE PROCESS MODE
+
+update-process-agent:
+  ✓ Archived webhook-support plan to completed/
+  ✓ Added webhook retry pattern to all-context.md
+  ✓ Updated all-tests.md with webhook test commands
+  ✓ Noted: queue library requires Redis — added to infra context
+
+  Next time an agent works on notifications, it already knows
+  your webhook patterns, test setup, and Redis dependency.
 ```
 
 ---
 
 ## Updating the Harness
 
-Already using the kit? Pull the latest improvements:
-
 ```
 Run the vc-update skill
 ```
 
-**What happens:**
-
-1. Clones the latest kit from remote
+1. Clones latest kit from remote
 2. Compares every managed file against your local copy
-3. Shows a dry-run diff summary table
-4. **Waits for your confirmation** before applying
-5. Updates managed files, syncs skills, refreshes seeds
-6. Records the version in `.vc-version`
+3. Shows a **dry-run diff table** — you see exactly what changes
+4. **Waits for your OK** before touching anything
+5. Updates managed files, syncs skills, refreshes seed templates
+6. Records version in `.vc-version`
 
-Your project-specific files (`process/context/`, `process/features/`, `process/general-plans/`) are **never touched** by updates.
+**Your files are safe.** `process/context/`, `process/features/`, `process/general-plans/` are **never touched** by updates. Only harness-managed files (agents, skills, hooks, protocols) get updated.
 
 ---
 
-## For Kit Maintainers
+## For Maintainers
 
-Push harness improvements from your development repo to this kit:
+Push harness improvements from your development repo:
 
 ```
 Run the vc-publish skill
 ```
 
-**What happens:**
-
-1. Reads your `.vc-publish-config` for the kit repo checkout path
-2. Diffs all managed files and skills
-3. Shows what changed
-4. Asks for version bump type (patch/minor/major)
-5. Copies files, bumps version, commits, tags, pushes
-6. Verifies no project-specific content leaked
+1. Reads `.vc-publish-config` for kit repo checkout path
+2. Diffs all managed files, skills, and seeds
+3. Shows what changed — waits for version bump choice (patch/minor/major)
+4. Copies, commits, tags, pushes
+5. Verifies no project-specific content leaked
 
 ---
 
 ## Multi-Platform Support
 
-| Platform | Support | How |
+| Platform | Level | What works |
 |---|---|---|
-| **Claude Code** | Full | `.claude/agents/*.md` + `.claude/skills/` + `.claude/hooks/` |
-| **Codex** | Full | `.codex/agents/*.toml` + `.agents/skills/` symlink + `.codex/hooks/` |
-| **Cursor** | Partial | Reads `CLAUDE.md` for conventions; agents/hooks not supported |
-| **Windsurf** | Partial | Reads `CLAUDE.md` for conventions; agents/hooks not supported |
-
-The `.agents/skills/` symlink points to `.claude/skills/`, so both Claude Code and Codex discover the same skill tree automatically.
+| **Claude Code** | Full | Agents + skills + hooks + settings |
+| **Codex** | Full | Agents (.toml) + skills (symlink) + hooks |
+| **Cursor** | Partial | Reads CLAUDE.md conventions |
+| **Windsurf** | Partial | Reads CLAUDE.md conventions |
 
 ---
 
-## Repository Structure
+## Repo Structure
 
 ```
 vibecode-pro-max-kit/
-├── CLAUDE.md                    # Claude Code instructions (harness-only)
+├── CLAUDE.md                    # Agent instructions (harness-only)
 ├── AGENTS.md                    # Codex compatibility layer
-├── README.md                    # This file
-├── vc-manifest.json             # Managed file manifest
-├── .gitignore
+├── vc-manifest.json             # Managed file registry
 ├── .claude/
 │   ├── agents/                  # 12 agent definitions (.md)
-│   ├── hooks/                   # 7 hooks + lib/ + scout-block/
-│   ├── hooks.json               # Claude hook discovery
-│   └── skills/                  # 32 skill directories
+│   ├── skills/                  # 32 skill directories
+│   ├── hooks/                   # 7 hooks + lib/
+│   └── settings.json            # Hook discovery config
 ├── .codex/
 │   ├── agents/                  # 12 agent mirrors (.toml)
 │   ├── hooks/                   # Codex hook copies
-│   ├── hooks.json               # Codex hook discovery
-│   └── config.toml              # Codex project config
+│   └── hooks.json               # Codex hook discovery
 ├── .agents/
-│   └── skills -> ../.claude/skills  # Symlink for Codex discovery
+│   └── skills -> ../.claude/skills
 └── process/
-    ├── _seeds/                  # Read-only bootstrap templates
-    ├── development-protocols/   # 6 managed protocol files
-    ├── context/                 # Project-specific knowledge (user-owned)
-    │   └── planning/            # Example PRDs
-    ├── features/                # Feature-scoped plans (user-owned)
-    └── general-plans/           # Cross-cutting plans (user-owned)
-        ├── active/
-        ├── completed/
-        ├── backlog/
-        ├── reports/
-        └── references/
+    ├── _seeds/                  # Bootstrap templates (managed)
+    ├── development-protocols/   # 6 workflow protocols (managed)
+    ├── context/                 # Project knowledge (yours)
+    ├── features/                # Feature-scoped work (yours)
+    └── general-plans/           # Cross-cutting plans (yours)
 ```
 
 ---
 
 ## Contributing
 
-1. Fork this repository
-2. Create a feature branch
-3. Make your changes (follow RIPER-5 — use the harness on itself)
-4. Run `audit-vc` to verify harness health
-5. Submit a pull request
+1. Fork → branch → make changes (use the harness on itself)
+2. Run `audit-vc` to verify harness health
+3. Submit a PR
 
-When adding new skills, place them in `.claude/skills/{skill-name}/SKILL.md` with YAML frontmatter. Update the skill registry table in both `CLAUDE.md` and `AGENTS.md`.
-
-When adding new agents, create both `.claude/agents/{name}.md` and `.codex/agents/{name}.toml`.
+New skills go in `.claude/skills/{name}/SKILL.md` with YAML frontmatter.
+New agents need both `.claude/agents/{name}.md` and `.codex/agents/{name}.toml`.
 
 ---
 
@@ -391,6 +468,6 @@ MIT
 
 ---
 
-<p align="center">
-  <sub>Built with RIPER-5 methodology. Every feature of this kit was developed using the kit itself.</sub>
-</p>
+<div align="center">
+  <sub>Built with RIPER-5. Every feature of this kit was developed using the kit itself.</sub>
+</div>
