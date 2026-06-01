@@ -39,6 +39,12 @@ Read these files as needed:
 - [parallel-fan-out.md](process/development-protocols/parallel-fan-out.md)
 - [intent-clarification.md](process/development-protocols/intent-clarification.md)
 
+Reference docs (harness methodology, not project-specific):
+
+- [example-simple-prd.md](process/development-protocols/references/example-simple-prd.md) - Reference for simple plan structure
+- [example-complex-prd.md](process/development-protocols/references/example-complex-prd.md) - Reference for complex plan depth
+- [program-goal-charter-template.md](process/development-protocols/references/program-goal-charter-template.md) - Program Goal Charter template for phase programs
+
 ### Orchestrator Role (Main Codex Session)
 
 Delegation rules, subagent status codes (`DONE`, `DONE_WITH_CONCERNS`, `BLOCKED`,
@@ -182,8 +188,6 @@ rather than hardcoding project details:
 
 - `all-context.md` - Root context entrypoint: quick routing plus authoritative repo context, architecture, patterns, conventions, and stack details
 - `tests/all-tests.md` - Testing quick-start, runner selection, commands, debugging procedures, and routing to deeper testing docs
-- `planning/example-simple-prd.md` - Reference for simple plan structure
-- `planning/example-complex-prd.md` - Reference for complex plan depth
 
 Context discovery rule: read `process/context/all-context.md` first, then load only the
 relevant root file or context group. Context groups are durable knowledge domains, not

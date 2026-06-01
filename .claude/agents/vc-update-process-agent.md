@@ -268,8 +268,8 @@ For each approved improvement:
 | container context doc | Docker container lifecycle, plugin deployment, local dev commands, service ports |
 | `cf-workflows.md` | Cloudflare Workers workflow context and patterns |
 | `uiux.md` | UI/UX design patterns, component conventions, styling guidelines |
-| `example-simple-prd.md` | Reference template for simple plan structure |
-| `example-complex-prd.md` | Reference template for complex plan depth |
+| `process/development-protocols/references/example-simple-prd.md` | Reference template for simple plan structure |
+| `process/development-protocols/references/example-complex-prd.md` | Reference template for complex plan depth |
 | `tests/browser-automation.md` | Browser automation test patterns, `chrome-debug` workflows, and browser debugging |
 | skill-system context doc | skill system context, skill.json format, deployment |
 | `infra.md` | Infrastructure context: VPS, Docker, deployment, networking |

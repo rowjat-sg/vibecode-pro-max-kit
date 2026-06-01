@@ -65,7 +65,7 @@ If this file is missing, ask the user for the kit repo checkout path and offer t
    - Files in dev `files` but NOT in kit `files`: **new** (will be added to kit).
    - Files in kit `files` but NOT in dev `files`: **removed** (will be removed from kit).
    - Files in both: compare content via `diff`. Classify as **modified** or **unchanged**.
-   - `strip` files (CLAUDE.md, AGENTS.md): always flag for content review regardless of diff status.
+   - `merge` files (CLAUDE.md, AGENTS.md): always flag for content review regardless of diff status.
 
 ### Step 5: Print Diff Summary
 
@@ -79,8 +79,8 @@ FILES:
   [modified]  .claude/agents/vc-execute-agent.md  (+8 -3)
   [modified]  .claude/hooks/lib/scout-checker.cjs  (+2 -1)
   [new]       .claude/skills/vc-new-skill/SKILL.md
-  [strip]     CLAUDE.md (needs content review)
-  [strip]     AGENTS.md (needs content review)
+  [merge]     CLAUDE.md (needs content review)
+  [merge]     AGENTS.md (needs content review)
   [unchanged] .claude/settings.json
   ... (350 more unchanged)
 
@@ -92,6 +92,7 @@ Total changes: 4 files modified, 1 new, 0 removed
 11. **STOP** and ask the user:
     - Confirm they want to publish these changes.
     - Specify version bump type: **patch**, **minor**, or **major**.
+    - Optionally provide **release notes** (1–3 sentences for the GitHub Release body). Leave blank to auto-generate from the diff summary (e.g. "4 modified, 1 new, 0 removed.").
     - Or abort.
 
 Version bump semantics:
@@ -162,10 +163,7 @@ Version bump semantics:
     `process/context/...` file reference in the resolved text set, MINUS the
     shipped/seeded survivors, is a dangling-link leak → FAIL with file:line.
     Survivors (allowed): `process/context/all-context.md`,
-    `process/context/tests/all-tests.md`,
-    `process/context/planning/example-simple-prd.md`,
-    `process/context/planning/example-complex-prd.md`, and any
-    `process/context/planning/example-*` glob. Portable directory refs (e.g.
+    `process/context/tests/all-tests.md`. Portable directory refs (e.g.
     `process/context/tests/`) and the `process/context/...` placeholder are fine.
 
     **Keep the existing narrow `CLAUDE.md`/`AGENTS.md` grep** (this stays as-is on
@@ -214,9 +212,25 @@ git push origin main && git push --tags
 
 17. If push fails (e.g., rejected, auth error), report the error. The commit and tag are preserved locally for retry.
 
-### Step 11: Print Summary
+### Step 11: Create GitHub Release
 
-18. Print publish summary:
+18. After a successful push, create a GitHub Release so watchers are notified and the release appears in the Releases tab:
+
+    ```bash
+    gh release create vX.Y.Z \
+      --repo <remote-owner>/<remote-repo> \
+      --title "vX.Y.Z: <first sentence of release notes>" \
+      --notes "<full release notes>"
+    ```
+
+    - If the user provided release notes at Step 6, use them verbatim.
+    - If left blank, auto-generate: `"N modified, M new, P removed. See commit log for details."`
+    - The `--title` one-liner should be the first sentence of the notes (truncate at 72 chars if longer).
+    - If `gh` is unavailable or the push to remote failed, skip this step and note it in the summary.
+
+### Step 12: Print Summary
+
+19. Print publish summary:
 
 ```
 vc-publish complete
@@ -225,6 +239,7 @@ Version:       v2.2.0 (was v2.1.0)
 Files changed: 4
 Remote:        git@github.com:withkynam/vibecode-pro-max-kit.git
 Tag:           v2.2.0
+Release:       https://github.com/<owner>/<repo>/releases/tag/v2.2.0
 ```
 
 ## Key Changes from v1.0

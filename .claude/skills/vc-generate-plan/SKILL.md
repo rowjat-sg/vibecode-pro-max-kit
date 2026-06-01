@@ -26,7 +26,7 @@ Optional input: a feature idea plus `simple` or `complex` when the user already 
 3. If complexity is not obvious, ask whether the plan is `SIMPLE` or `COMPLEX`.
 4. Save the plan to `process/general-plans/active/` unless the work belongs to an existing `process/features/{feature}/active/` folder.
 5. Read `process/context/all-context.md` when present to choose relevant context docs.
-6. For complex plans, read `process/context/planning/example-complex-prd.md` before writing.
+6. For complex plans, read `process/development-protocols/references/example-complex-prd.md` before writing.
 7. Include automated and manual verification gates from `process/context/tests/all-tests.md`.
 8. For new or newly touched direct `*_PLAN_*.md` plans, include explicit sections for `Touchpoints`, `Public Contracts`, `Blast Radius`, `Verification Evidence`, and `Resume and Execution Handoff`.
 9. Keep resume/dependency notes Markdown-structured for now; do not invent a second machine-only schema.

@@ -36,8 +36,8 @@ The `--json` output provides all metadata needed for diffing:
   "files": ["...sorted managed file paths..."],
   "kitOnly": ["...sorted kit-exclusive file paths..."],
   "merge": [".claude/settings.json"],
-  "copyIfMissing": ["process/context/planning/example-simple-prd.md"],
-  "strip": ["CLAUDE.md", "AGENTS.md"],
+  "copyIfMissing": [],
+  "strip": [],
   "symlinks": { ".agents/skills": "../.claude/skills" }
 }
 ```
@@ -150,10 +150,7 @@ set, MINUS the shipped/seeded survivors, is a dangling-link leak (it would dangl
 a clean install) → FAIL with file:line.
 
 Survivors (allowed): `process/context/all-context.md`,
-`process/context/tests/all-tests.md`,
-`process/context/planning/example-simple-prd.md`,
-`process/context/planning/example-complex-prd.md`, and any
-`process/context/planning/example-*` glob. Portable directory references (e.g.
+`process/context/tests/all-tests.md`. Portable directory references (e.g.
 `process/context/tests/`) and the `process/context/...` placeholder are fine.
 
 ### Existing narrow CLAUDE.md/AGENTS.md grep (kept as-is)

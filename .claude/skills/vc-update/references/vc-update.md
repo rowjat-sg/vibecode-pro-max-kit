@@ -19,7 +19,6 @@ The manifest uses glob-based patterns resolved by `resolve-manifest.mjs`.
     "CLAUDE.md",
     "AGENTS.md",
     "process/development-protocols/**",
-    "process/context/planning/example-*.md",
     "process/_seeds/**",
     "process/_seeds/**/.gitkeep",
     "process/_seeds/**/.gitignore",
@@ -34,9 +33,9 @@ The manifest uses glob-based patterns resolved by `resolve-manifest.mjs`.
     ".codex/statusline.cjs",
     ".claude/skills/vc-chrome-devtools/scripts/node_modules/**"
   ],
-  "strip": ["CLAUDE.md", "AGENTS.md"],
-  "merge": [".claude/settings.json"],
-  "copyIfMissing": ["process/context/planning/example-*.md"],
+  "strip": [],
+  "merge": [".claude/settings.json", "CLAUDE.md", "AGENTS.md"],
+  "copyIfMissing": [],
   "symlinks": { ".agents/skills": "../.claude/skills" },
   "kitOnly": [
     "README.md", "README-preview*.html", "CONTRIBUTING.md", "SECURITY.md",
@@ -96,8 +95,8 @@ node "$TMPDIR/resolve-manifest.mjs" --root "$TMPDIR" --kit-only
   "files": ["...sorted managed file paths..."],
   "kitOnly": ["...sorted kit-exclusive file paths..."],
   "merge": [".claude/settings.json"],
-  "copyIfMissing": ["process/context/planning/example-simple-prd.md", "process/context/planning/example-complex-prd.md"],
-  "strip": ["CLAUDE.md", "AGENTS.md"],
+  "copyIfMissing": [],
+  "strip": [],
   "symlinks": { ".agents/skills": "../.claude/skills" }
 }
 ```
@@ -147,9 +146,18 @@ If the user has intentional local changes to a managed file:
 2. Re-apply after the update
 3. Or better: move customizations to `process/context/` where they belong
 
-### Merge files (.claude/settings.json)
+### Smart-merge files (CLAUDE.md, AGENTS.md)
 
-Files in the `merge` list are NEVER overwritten if they exist locally. The dry-run shows the diff so the user can manually reconcile. On fresh install (no existing file), the kit version is installed.
+`CLAUDE.md` and `AGENTS.md` contain both harness methodology (kit-owned) and project-specific content (project-owned). The agent performs an intelligent merge:
+
+- **Apply from remote:** new/changed entries in the development-protocols file list, reference docs block, orchestrator routing sections, skill registry table, phase transition rules.
+- **Preserve from local:** `process/context/` bullet list and all context group entries, technology stack section, coding preferences, current features list, any section absent from the remote.
+
+The dry-run shows a preview (`apply: +N lines | preserve: context groups, tech stack`). On apply, the merged file is written and the summary reports what was applied vs preserved.
+
+### Simple-merge files (.claude/settings.json)
+
+Files in the `merge` list (other than smart-merge files) are NEVER overwritten if they exist locally. The dry-run shows the diff so the user can manually reconcile. On fresh install (no existing file), the kit version is installed.
 
 ### Copy-if-missing files (example PRDs)
 
@@ -196,8 +204,7 @@ MERGE (preserved, manual review needed):
   [differs]   .claude/settings.json  (+2 -1)
 
 COPY-IF-MISSING (skipped, already present):
-  [skipped]   process/context/planning/example-simple-prd.md
-  [skipped]   process/context/planning/example-complex-prd.md
+  (none)
 
 SYMLINKS:
   [ok]  .agents/skills -> ../.claude/skills

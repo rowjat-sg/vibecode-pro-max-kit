@@ -1909,7 +1909,7 @@ See [API Surface](#11-api-surface-trpc) section above for full contracts.
 - **Styling**: Tailwind CSS v4, shadcn/ui (neobrutalist theme)
 - **Data Fetching**: tRPC, React Query
 - **Visualization**: Recharts (treemap), custom SVG/div grid (heat map)
-- **Database**: Prisma ORM, PostgreSQL (Supabase)
+- **Database**: Prisma ORM, PostgreSQL
 - **Authentication**: Clerk (existing)
 
 ### Code Standards

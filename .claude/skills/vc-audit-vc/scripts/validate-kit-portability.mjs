@@ -118,8 +118,6 @@ for (const file of textFiles) {
 const CONTEXT_SURVIVORS = new Set([
   "process/context/all-context.md",
   "process/context/tests/all-tests.md",
-  "process/context/planning/example-simple-prd.md",
-  "process/context/planning/example-complex-prd.md",
 ]);
 
 function isConcreteContextFileRef(ref) {
