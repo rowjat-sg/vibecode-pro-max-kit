@@ -27,7 +27,7 @@
 <p align="center">
   <img src="https://media.tenor.com/q_5em_iLaxoAAAAC/tanjiro-i-water-style.gif" alt="Flow like water" width="480">
   <br><br>
-  <em>「全集中——スペックの呼吸 拾ノ型・生生流転。<br>機能を出荷するたびに強くなる、途切れることのない開発の循環。<br>コンテキストは積み重なる。流れは決して途切れない。」</em><br>
+  <em>「全集中——スペックの呼吸 拾ノ型・ヴァイブの流れは決して途切れない。」</em><br>
   <strong>——竈門炭治郎</strong>
 </p>
 
@@ -80,7 +80,10 @@
     <img alt="Tech Stack Row 3" src="https://skillicons.dev/icons?i=supabase,firebase,postgres,mongodb,redis,docker,kubernetes,aws,gcp,azure,vercel,cloudflare,tailwind,electron&perline=15" />
   </picture>
   <br>
-  <sub>React · Next.js · Vue · Nuxt · Svelte · Angular · React Native · Electron · Node.js · Express · Bun · Hono · Python · Django · FastAPI · Flask · Ruby · Rails · Go · Rust · Java · Spring Boot · Kotlin · Swift · PHP · Laravel · C# · .NET · Elixir · TypeScript · Prisma · Supabase · Firebase · PostgreSQL · MongoDB · Redis · GraphQL · Docker · Kubernetes · Terraform · AWS · GCP · Azure · Vercel · Cloudflare · Tailwind · shadcn/ui · その他あらゆるスタック</sub>
+  <p><em>デコレーションではありません。<code>vc-setup</code> を実行すると、並列エージェントがコードベースをスキャンし、<br>
+  スタックを検出して、すべてのスキルが動作前に参照するプロジェクト固有のコンテキストグループを構築します。<br>
+  他のハーネスは一つの言語にエージェントをハードコードします——<code>rust-review-agent</code>、<code>python-linter</code>——他では役に立ちません。<br>
+  このハーネスは上記のあらゆる組み合わせに適応し、機能を出荷するたびに知識を蓄積します。</em></p>
 </p>
 
 </div>
